@@ -1,0 +1,53 @@
+---
+title: "DataAnalysis1.rmd"
+author: "Alex Khater"
+date: "1/8/2020"
+output: word_document
+---
+```{r}
+library(Stat2Data)
+library(mosaic)
+library(car)
+Dataset7 <- read.csv("AmesSubset18Alex.csv")
+```
+
+Dataset 4:
+```{r}
+data("Cereal")
+D4<-lm(Sugar~0, data=Cereal)
+summary(D4)
+Sug<-(Cereal$Sugar)
+hist(Sug)
+
+```
+
+Dataset 6:
+```{r}
+data("SATGPA")
+D6<-lm(MathSAT~0, data=SATGPA)
+summary(D6)
+hist(SATGPA$MathSAT)
+```
+
+Dataset 7:
+```{r}
+data("Dataset7")
+D7<-lm(Size~0, data=Dataset7)
+glimpse(Dataset7)
+summary(Dataset\7)
+hist(Dataset7$Size)
+```
+Dataset 8:
+```{r}
+data("FirstYearGPA")
+D8<-lm(GPA~0, data=FirstYearGPA)
+summary(D8)
+hist(FirstYearGPA$GPA)
+```
+Dataset 9:
+```{r}
+data("Diamonds2")
+D9<-lm(Carat~0, data=Diamonds2 )
+summary(D9)
+hist(Diamonds2$Carat)
+```

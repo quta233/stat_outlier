@@ -1,0 +1,75 @@
+---
+title: "winter_Tina"
+author: "Tina Liu"
+date: "2020/1/8"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+cabinet_5 <- read_csv("cabinet-turnover.csv")
+airbnb_6 <- read_csv("listings.csv")
+top50_3 <- read_csv("top50.csv")
+nfl_1 <- read_csv("nfl_elo.csv")
+```
+
+```{r}
+airbnb_6 <- airbnb_6 %>% select(price, number_of_reviews)
+```
+
+
+```{r}
+nfl_1 <- nfl_1 %>% filter(season >= 2000)
+```
+
+```{r}
+nfl_1 <- nfl_1 %>% select(elo1_post)
+```
+
+```{r}
+glimpse(nfl_1)
+```
+
+```{r}
+glimpse(top50_3)
+```
+
+```{r}
+glimpse(cabinet_5)
+```
+
+
+
+```{r}
+glimpse(airbnb_6)
+```
+
+
+```{r}
+library(Stat2Data)
+```
+
+```{r}
+data(Cereal)
+```
+
+```{r}
+Cereal
+```
+
+```{r}
+glimpse(Cereal)
+```
+
+
+
+
+

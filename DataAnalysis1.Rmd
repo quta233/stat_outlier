@@ -34,7 +34,7 @@ Dataset 7:
 data("Dataset7")
 D7<-lm(Size~0, data=Dataset7)
 glimpse(Dataset7)
-summary(Dataset\7)
+summary(Dataset7)
 hist(Dataset7$Size)
 ```
 Dataset 8:
@@ -50,4 +50,50 @@ data("Diamonds2")
 D9<-lm(Carat~0, data=Diamonds2 )
 summary(D9)
 hist(Diamonds2$Carat)
+```
+Dataset 10:
+```{r}
+data("MLBStandings2016")
+D10<-lm(Runs~0, data=MLBStandings2016 )
+summary(D10)
+hist(MLBStandings2016$Runs)
+```
+
+Dataset 11:
+```{r}
+data("PeaceBridge2012")
+D11<-lm(Traffic~0, data=PeaceBridge2012 )
+summary(D9)
+hist(PeaceBridge2012$Traffic)
+```
+
+Dataset 12:
+```{r}
+data("Perch")
+D12<-lm(Weight~0, data=Perch )
+summary(D12)
+hist(Perch$Weight)
+```
+
+Dataset 13:
+```{r}
+data("Houses")
+D13<-lm(Price~0, data=Houses )
+summary(D13)
+hist(Houses$Price)
+```
+
+Dataset 14:
+```{r}
+data("Fertility")
+D14<-lm(E2~1, data=Fertility )
+summary(D14)
+hist(Fertility$E2)
+```
+Dataset 15:
+```{r}
+data("LeveeFailures")
+D15<-lm(ChannelWidth~0, data=LeveeFailures )
+summary(D15)
+hist(LeveeFailures$ChannelWidth)
 ```

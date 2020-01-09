@@ -25,49 +25,70 @@ nfl_1 <- read_csv("nfl_elo.csv")
 airbnb_6 <- airbnb_6 %>% select(price, number_of_reviews)
 ```
 
+```{r}
+cabinet_5 <- cabinet_5 %>% 
+  filter(!is.na(length)) %>%
+  mutate(length = as.numeric(length))
+```
+
+
+
 
 ```{r}
 nfl_1 <- nfl_1 %>% filter(season >= 2000)
-```
-
-```{r}
 nfl_1 <- nfl_1 %>% select(elo1_post)
 ```
 
+
+
+Dataset 1:
 ```{r}
 glimpse(nfl_1)
+D1<- lm(elo1_post~0, data = nfl_1)
+summary(D1)
+hist(nfl_1$elo1_post)
 ```
 
+
+Dataset 2:
 ```{r}
 glimpse(top50_3)
+D2 <- lm(Beats.Per.Minute~0, data = top50_3)
+summary(D2)
+hist(top50_3$Beats.Per.Minute)
 ```
 
+
+Dataset 3:
 ```{r}
 glimpse(cabinet_5)
+D3 <- lm(length~0, data = cabinet_5)
+summary(D3)
+hist(cabinet_5$length)
 ```
-
-
 
 ```{r}
-glimpse(airbnb_6)
+airbnb_6 <- airbnb_6 %>% mutate(number_of_reviews = as.numeric(number_of_reviews))
 ```
+
+
+Dataset 5:
+```{r}
+glimpse(airbnb_6)
+D5 <- lm(number_of_reviews~0, data = airbnb_6)
+summary(D5)
+hist(airbnb_6$number_of_reviews)
+```
+
+
 
 
 ```{r}
 library(Stat2Data)
 ```
 
-```{r}
-data(Cereal)
-```
 
-```{r}
-Cereal
-```
 
-```{r}
-glimpse(Cereal)
-```
 
 
 

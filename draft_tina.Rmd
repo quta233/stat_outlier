@@ -87,10 +87,108 @@ hist(airbnb_6$number_of_reviews)
 library(Stat2Data)
 ```
 
+Dataset 23:
+```{r}
+data("Kershaw")
+D23<-lm(StartSpeed~0, data=Kershaw)
+summary(D23)
+hist(Kershaw$StartSpeed)
+```
 
 
+Dataset 24:
+```{r}
+data("SeaIce")
+D24<-lm(Extent~0, data=SeaIce)
+summary(D24)
+hist(SeaIce$Extent)
+```
 
 
+Dataset 25:
+```{r}
+data("TomlinsonRush")
+D25<-lm(Yards~0, data=TomlinsonRush)
+summary(D25)
+hist(TomlinsonRush$Yards)
+```
+
+Dataset 26:
+```{r}
+data("BlueJays")
+glimpse(BlueJays)
+D26<-lm(BillDepth~0, data=BlueJays)
+summary(D26)
+hist(BlueJays$BillDepth)
+```
 
 
+Dataset 27:
+```{r}
+data("WalkTheDogs")
+glimpse(WalkTheDogs)
+D27<-lm(Kcal~0, data=WalkTheDogs)
+summary(D27)
+hist(WalkTheDogs$Kcal)
+```
+
+
+Datset 28:
+```{r}
+data("SeaSlugs")
+glimpse(SeaSlugs)
+D28<-lm(Percent~0, data=SeaSlugs)
+summary(D28)
+hist(SeaSlugs$Percent)
+```
+
+
+Dataset 29:
+```{r}
+data("Dinosaurs")
+glimpse(Dinosaurs)
+D29<-lm(Depth~0, data=Dinosaurs)
+summary(D27)
+hist(Dinosaurs$Iridium)
+```
+
+
+Datset 30:
+```{r}
+data("Putts1")
+glimpse(Putts1)
+D30<-lm(Length~0, data=Putts1)
+summary(D30)
+hist(Putts1$Length)
+```
+
+```{r}
+x <- seq(0, 50, length=70)
+hx <- dnorm(x)
+```
+
+```{r}
+hx <- rnorm(70)
+```
+
+
+```{r}
+df1 <- data.frame(id=as.character(1:70), 
+                  value=hx, 
+                  stringsAsFactors=F)
+```
+
+```{r}
+try <- rbeta(70,5,5)
+```
+
+
+```{r}
+hist(rbeta(10000,5,5))
+```
+
+
+```{r}
+hist(df1$value)
+```
 

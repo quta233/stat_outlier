@@ -179,14 +179,31 @@ df1 <- data.frame(id=as.character(1:70),
 ```
 
 ```{r}
-try <- rbeta(70,5,5)
+hist(df1$value)
 ```
 
 
 ```{r}
-hist(rbeta(10000,5,5))
+N <- 100000
+n <- 100
+p <- .5
+hist(rbinom(N, n, p))
 ```
 
+
+
+```{r}
+hist(rbeta(70,5,5))
+```
+
+
+```{r}
+hist(rbeta(70,2,5))
+```
+
+```{r}
+hist(rbeta(1000,5,2))
+```
 
 ```{r}
 hist(df1$value)

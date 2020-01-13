@@ -9,9 +9,14 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+install.packages("sn")
+```
+
 
 ```{r}
 library(tidyverse)
+library(sn)
 ```
 
 ```{r}
@@ -162,54 +167,105 @@ summary(D30)
 hist(Putts1$Length)
 ```
 
-```{r}
-x <- seq(0, 50, length=70)
-hx <- dnorm(x)
-```
 
+Control Set 1:
 ```{r}
-hx <- rnorm(70)
-```
-
-
-```{r}
-df1 <- data.frame(id=as.character(1:70), 
-                  value=hx, 
+set.seed(14)
+x1 <- rnorm(33, sd = 4)
+x1 <- c(x1, 100, -100)
+s_norm <- data.frame(id=as.character(1:35), 
+                  value=x1, 
                   stringsAsFactors=F)
+hist(s_norm$value)
 ```
 
+
+Control Set 2:
 ```{r}
-hist(df1$value)
+set.seed(3)
+x2 <- rnorm(298, sd = 4)
+x2 <- c(x2, 200, -200)
+m_norm <- data.frame(id=as.character(1:300), 
+                  value=x2, 
+                  stringsAsFactors=F)
+hist(m_norm$value)
 ```
 
-
+Control Set 3:
 ```{r}
-N <- 100000
-n <- 100
-p <- .5
-hist(rbinom(N, n, p))
+set.seed(5)
+x3 <- rnorm(998, sd = 4)
+x3 <- c(x3, 300, -300)
+l_norm <- data.frame(id=as.character(1:1000), 
+                  value=x3, 
+                  stringsAsFactors=F)
+hist(l_norm$value)
 ```
 
+Control Set 4:
 ```{r}
-hist(rnorm(100, 100, 10))
+set.seed(12)
+x4 <- rsn(33, alpha = 4)
+x4 <- c(x4, 100, -100)
+s_right <- data.frame(id=as.character(1:35), 
+                  value=x4, 
+                  stringsAsFactors=F)
+hist(s_right$value)
 ```
 
 
-
+Control Set 5:
 ```{r}
-hist(rbeta(70,5,5))
+set.seed(6)
+x5 <- rsn(298, alpha = 4)
+x5 <- c(x5, 100, -100)
+m_right <- data.frame(id=as.character(1:300), 
+                  value=x5, 
+                  stringsAsFactors=F)
+hist(m_right$value)
 ```
 
 
+Control Set 6:
 ```{r}
-hist(rbeta(70,2,5))
+set.seed(14)
+x6 <- rsn(998, alpha = 4)
+x6 <- c(x6, 100, -100)
+l_right <- data.frame(id=as.character(1:1000), 
+                  value=x6, 
+                  stringsAsFactors=F)
+hist(l_right$value)
 ```
 
+Control Set 7:
 ```{r}
-hist(rbeta(1000,5,2))
+set.seed(18)
+x7 <- rsn(33, alpha = -4)
+x7 <- c(x7, 100, -100)
+s_left <- data.frame(id=as.character(1:35), 
+                  value=x7, 
+                  stringsAsFactors=F)
+hist(s_left$value)
 ```
 
+Control Set 8:
 ```{r}
-hist(df1$value)
+set.seed(16)
+x8 <- rsn(298, alpha = -4)
+x8 <- c(x8, 100, -100)
+m_left <- data.frame(id=as.character(1:300), 
+                  value=x8, 
+                  stringsAsFactors=F)
+hist(m_left$value)
 ```
 
+Control Set 9:
+```{r}
+set.seed(17)
+x9 <- rsn(998, alpha = -4)
+x9 <- c(x9, 100, -100)
+l_left <- data.frame(id=as.character(1:1000), 
+                  value=x9, 
+                  stringsAsFactors=F)
+hist(l_left$value)
+```

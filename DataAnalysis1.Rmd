@@ -15,7 +15,7 @@ library(tidyverse)
 library(Stat2Data)
 library(mosaic)
 library(car)
-```
+``` 
 
 Dataset 4:
 ```{r}
@@ -151,3 +151,10 @@ D22<-lm(Price~0, data=AppleStock )
 summary(D22)
 hist(AppleStock$Price)
 ```
+
+
+```{r}
+car::outlierTest(D22)
+car::outlierTest(D18)
+```
+

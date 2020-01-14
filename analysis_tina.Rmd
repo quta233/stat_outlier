@@ -13,26 +13,33 @@ knitr::opts_chunk$set(echo = TRUE)
 install.packages("outliers")
 ```
 
+```{r}
+library(tidyverse)
+```
+
 
 ```{r}
 library(outliers)
 ```
 
+
 ```{r}
-set.seed(1234)
-x = rnorm(10)
-dixon.test(x)
-dixon.test(x,opposite=TRUE)
-dixon.test(x,type=10)
+chi_square <- function(x) {
+  while(chisq.out.test(x)$p.value < 0.01) {
+    str <- chisq.out.test(x)$alternative
+    print(str)
+    n <- as.numeric(unlist(regmatches(str,
+                                    gregexpr("(?<=value)(.*)(?=is an outlier)", str, perl = T))))
+    x <- x[x != n]
+    print(length(x))
+  }
+}
 ```
 
 ```{r}
-s_norm
+chi_square(s_norm$value)
 ```
 
-```{r}
-dixon.test(TomlinsonRush$Yards)$alternative
-```
 
 ```{r}
 x <- s_norm$value
@@ -51,39 +58,6 @@ while(chisq.out.test(x)$p.value < 0.01) {
 }
 ```
 
-```{r}
-y <- SeaSlugs$Percent
-```
-
-```{r}
-while(chisq.out.test(y)$p.value < 0.01)
-{
-  # str: string contains the outlier value and some text 
-  #   n: extract the outlier value and transform to numeric 
-  str <- chisq.out.test(y)$alternative
-  print(str)
-  n <- as.numeric(unlist(regmatches(str,
-                                    gregexpr("(?<=value)(.*)(?=is an outlier)", str, perl = T))))
-  y <- y[y != n]
-  print(length(y))
-}
-```
-
-```{r}
-z <- TomlinsonRush$Yards
-```
-
-```{r}
-while(chisq.out.test(z)$p.value < 0.01) {
-  str <- chisq.out.test(z)$alternative
-  print(str)
-  n <- as.numeric(unlist(regmatches(str,
-                                    gregexpr("(?<=value)(.*)(?=is an outlier)", str, perl = T))))
-  z <- z[z != n]
-  print(length(z))
-}
-```
-
 
 ```{r}
 var(s_norm$value)
@@ -95,53 +69,10 @@ chisq.out.test(s_norm$value, var(s_norm$value))
 
 
 ```{r}
-plot(cooks.distance(lm(Yards~0, data=TomlinsonRush)))
-```
-
-```{r}
-dixon.test(SeaIce$Extent)
-```
-
-
-
-
-```{r}
-dixon.test
+plot(cooks.distance(lm(Yards~1, data=TomlinsonRush)))
 ```
 
 
 ```{r}
-chisq.out.test(s_norm$value, var(s_norm$value))
-remove <- c(min(s_norm$value))
-x <- s_norm$value [! s_norm$value %in% remove]
-chisq.out.test(x, var(x))
-remove <- c(min(x), max(x))
-x <- x [! x %in% remove]
-chisq.out.test(x, var(x))
-remove <- c(min(x), max(x))
-x <- x [! x %in% remove]
-chisq.out.test(x, var(x))
-remove <- c(min(x), max(x))
-x <- x [! x %in% remove]
-chisq.out.test(x, var(x))
+quantile(s_norm$value, probs = c(0.25, 0.75))
 ```
-
-```{r}
-x
-```
-
-
-```{r}
-remove <- c(min(x), max(x))
-x <- x [! x %in% remove]
-chisq.out.test(x)
-```
-
-
-
-```{r}
-a <- c(3, 5, 4)
-a %in% c(3, 5)
-```
-
-a [! a %in% remove]

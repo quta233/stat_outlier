@@ -177,6 +177,7 @@ s_norm <- data.frame(id=as.character(1:35),
                   value=x1, 
                   stringsAsFactors=F)
 hist(s_norm$value)
+C1<-lm(value~1, data=s_norm)
 ```
 
 

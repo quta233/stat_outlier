@@ -6,21 +6,30 @@ output: word_document
 ---
 
 ```{r}
-library(tidyverse)
+chi_square <- function(x, pvalue) {
+  while(chisq.out.test(x)$p.value < pvalue) {
+    str <- chisq.out.test(x)$alternative
+    print(str)
+    n <- as.numeric(unlist(regmatches(str,
+                                    gregexpr("(?<=value)(.*)(?=is an outlier)", str, perl = T))))
+    x <- x[x != n]
+    print(length(x))
+  }
+}
 ```
-
 
 
 ```{r}
 library(Stat2Data)
 library(mosaic)
 library(car)
+library(outliers)
 ``` 
 
 Dataset 4:
 ```{r}
 data("Cereal")
-D4<-lm(Sugar~0, data=Cereal)
+D4<-lm(Sugar~1, data=Cereal)
 summary(D4)
 Sug<-(Cereal$Sugar)
 hist(Sug)
@@ -30,7 +39,7 @@ hist(Sug)
 Dataset 6:
 ```{r}
 data("SATGPA")
-D6<-lm(MathSAT~0, data=SATGPA)
+D6<-lm(MathSAT~1, data=SATGPA)
 summary(D6)
 hist(SATGPA$MathSAT)
 ```
@@ -38,28 +47,28 @@ hist(SATGPA$MathSAT)
 Dataset 7:
 ```{r}
 data("KeyWestWater")
-D7<-lm(WaterTemp~0, data=KeyWestWater)
+D7<-lm(WaterTemp~1, data=KeyWestWater)
 summary(D7)
 hist(KeyWestWater$WaterTemp)
 ```
 Dataset 8:
 ```{r}
 data("FirstYearGPA")
-D8<-lm(GPA~0, data=FirstYearGPA)
+D8<-lm(GPA~1, data=FirstYearGPA)
 summary(D8)
 hist(FirstYearGPA$GPA)
 ```
 Dataset 9:
 ```{r}
 data("Diamonds2")
-D9<-lm(Carat~0, data=Diamonds2 )
+D9<-lm(Carat~1, data=Diamonds2 )
 summary(D9)
 hist(Diamonds2$Carat)
 ```
 Dataset 10:
 ```{r}
 data("MLBStandings2016")
-D10<-lm(Runs~0, data=MLBStandings2016 )
+D10<-lm(Runs~1, data=MLBStandings2016 )
 summary(D10)
 hist(MLBStandings2016$Runs)
 ```
@@ -67,7 +76,7 @@ hist(MLBStandings2016$Runs)
 Dataset 11:
 ```{r}
 data("PeaceBridge2012")
-D11<-lm(Traffic~0, data=PeaceBridge2012 )
+D11<-lm(Traffic~1, data=PeaceBridge2012 )
 summary(D9)
 hist(PeaceBridge2012$Traffic)
 ```
@@ -75,7 +84,7 @@ hist(PeaceBridge2012$Traffic)
 Dataset 12:
 ```{r}
 data("Perch")
-D12<-lm(Weight~0, data=Perch )
+D12<-lm(Weight~1, data=Perch )
 summary(D12)
 hist(Perch$Weight)
 ```
@@ -83,7 +92,7 @@ hist(Perch$Weight)
 Dataset 13:
 ```{r}
 data("Houses")
-D13<-lm(Price~0, data=Houses )
+D13<-lm(Price~1, data=Houses )
 summary(D13)
 hist(Houses$Price)
 ```
@@ -98,63 +107,99 @@ hist(Fertility$E2)
 Dataset 15:
 ```{r}
 data("LeveeFailures")
-D15<-lm(ChannelWidth~0, data=LeveeFailures )
+D15<-lm(ChannelWidth~1, data=LeveeFailures )
 summary(D15)
 hist(LeveeFailures$ChannelWidth)
 ```
 Dataset 16:
 ```{r}
 data("Retirement")
-D16<-lm(SRA~0, data=Retirement )
+D16<-lm(SRA~1, data=Retirement )
 summary(D16)
 hist(Retirement$SRA)
 ```
 Dataset 17:
 ```{r}
 data("CO2Hawaii")
-D17<-lm(CO2~0, data=CO2Hawaii )
+D17<-lm(CO2~1, data=CO2Hawaii )
 summary(D17)
 hist(CO2Hawaii$CO2)
 ```
 Dataset 18:
 ```{r}
 data("Faces")
-D18<-lm(SHR~0, data=Faces )
+D18<-lm(SHR~1, data=Faces )
 summary(D18)
 hist(Faces$SHR)
 ```
 Dataset 19:
 ```{r}
 data("Kids198")
-D19<-lm(Weight~Height, data=Kids198 )
+D19<-lm(Weight~1, data=Kids198 )
 summary(D19)
 hist(Kids198$Weight)
 ```
 Dataset 20:
 ```{r}
 data("BirdNest")
-D20<-lm(Length~0, data=BirdNest )
+D20<-lm(Length~1, data=BirdNest )
 summary(D20)
 hist(BirdNest$Length)
 ```
 Dataset 21:
 ```{r}
 data("HawkTail")
-D21<-lm(Tail~0, data=HawkTail )
+D21<-lm(Tail~1, data=HawkTail )
 summary(D21)
 hist(HawkTail$Tail)
 ```
 Dataset 22:
 ```{r}
 data("AppleStock")
-D22<-lm(Price~0, data=AppleStock )
+D22<-lm(Price~1, data=AppleStock )
 summary(D22)
 hist(AppleStock$Price)
+```
+
+```{r}
+car::outlierTest(D22)
+```
+
+```{r}
+cook_distance <- function(data) {
+  cooksd <- cooks.distance(data)
+  plot(cooksd, pch="*", cex=2, main="Influential Obs by Cooks distance")  # plot cook's distance
+  abline(h = 4*mean(cooksd, na.rm=T), col="red")  # add cutoff line
+  text(x=1:length(cooksd)+1, y=cooksd, labels=ifelse(cooksd>4*mean(cooksd, na.rm=T),names(cooksd),""),
+       col="red")
+}
+```
+
+```{r}
+cook_distance(D22)
+```
+
+
+```{r}
+cooksd <- cooks.distance(D21)
+plot(cooksd, pch="*", cex=2, main="Influential Obs by Cooks distance")  # plot cook's distance
+abline(h = 4*mean(cooksd, na.rm=T), col="red")  # add cutoff line
+text(x=1:length(cooksd)+1, y=cooksd, labels=ifelse(cooksd>4*mean(cooksd, na.rm=T),names(cooksd),""), col="red")  # add labels
 ```
 
 
 ```{r}
 car::outlierTest(D22)
 car::outlierTest(D18)
+```
+```{r}
+quantile(AppleStock$Price, probs = c(0.25,0.75))
+```
+```{r}
+1.5* (113.5775-106.7525)
+```
+
+```{r}
+chi_square(HawkTail$Tail, 0.05)
 ```
 

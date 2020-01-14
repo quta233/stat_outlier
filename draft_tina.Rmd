@@ -49,7 +49,7 @@ nfl_1 <- nfl_1 %>% select(elo1_post)
 Dataset 1:
 ```{r}
 glimpse(nfl_1)
-D1<- lm(elo1_post~0, data = nfl_1)
+D1<- lm(elo1_post~1, data = nfl_1)
 summary(D1)
 hist(nfl_1$elo1_post)
 ```
@@ -58,7 +58,7 @@ hist(nfl_1$elo1_post)
 Dataset 2:
 ```{r}
 glimpse(top50_3)
-D2 <- lm(Beats.Per.Minute~0, data = top50_3)
+D2 <- lm(Beats.Per.Minute~1, data = top50_3)
 summary(D2)
 hist(top50_3$Beats.Per.Minute)
 ```
@@ -67,7 +67,7 @@ hist(top50_3$Beats.Per.Minute)
 Dataset 3:
 ```{r}
 glimpse(cabinet_5)
-D3 <- lm(length~0, data = cabinet_5)
+D3 <- lm(length~1, data = cabinet_5)
 summary(D3)
 hist(cabinet_5$length)
 ```
@@ -80,7 +80,7 @@ airbnb_6 <- airbnb_6 %>% mutate(number_of_reviews = as.numeric(number_of_reviews
 Dataset 5:
 ```{r}
 glimpse(airbnb_6)
-D5 <- lm(number_of_reviews~0, data = airbnb_6)
+D5 <- lm(number_of_reviews~1, data = airbnb_6)
 summary(D5)
 hist(airbnb_6$number_of_reviews)
 ```
@@ -95,7 +95,7 @@ library(Stat2Data)
 Dataset 23:
 ```{r}
 data("Kershaw")
-D23<-lm(StartSpeed~0, data=Kershaw)
+D23<-lm(StartSpeed~1, data=Kershaw)
 summary(D23)
 hist(Kershaw$StartSpeed)
 ```
@@ -104,7 +104,7 @@ hist(Kershaw$StartSpeed)
 Dataset 24:
 ```{r}
 data("SeaIce")
-D24<-lm(Extent~0, data=SeaIce)
+D24<-lm(Extent~1, data=SeaIce)
 summary(D24)
 hist(SeaIce$Extent)
 ```
@@ -113,7 +113,7 @@ hist(SeaIce$Extent)
 Dataset 25:
 ```{r}
 data("TomlinsonRush")
-D25<-lm(Yards~0, data=TomlinsonRush)
+D25<-lm(Yards~1, data=TomlinsonRush)
 summary(D25)
 hist(TomlinsonRush$Yards)
 ```
@@ -122,7 +122,7 @@ Dataset 26:
 ```{r}
 data("BlueJays")
 glimpse(BlueJays)
-D26<-lm(BillDepth~0, data=BlueJays)
+D26<-lm(BillDepth~1, data=BlueJays)
 summary(D26)
 hist(BlueJays$BillDepth)
 ```
@@ -132,7 +132,7 @@ Dataset 27:
 ```{r}
 data("WalkTheDogs")
 glimpse(WalkTheDogs)
-D27<-lm(Kcal~0, data=WalkTheDogs)
+D27<-lm(Kcal~1, data=WalkTheDogs)
 summary(D27)
 hist(WalkTheDogs$Kcal)
 ```
@@ -142,7 +142,7 @@ Datset 28:
 ```{r}
 data("SeaSlugs")
 glimpse(SeaSlugs)
-D28<-lm(Percent~0, data=SeaSlugs)
+D28<-lm(Percent~1, data=SeaSlugs)
 summary(D28)
 hist(SeaSlugs$Percent)
 ```
@@ -152,7 +152,7 @@ Dataset 29:
 ```{r}
 data("Dinosaurs")
 glimpse(Dinosaurs)
-D29<-lm(Depth~0, data=Dinosaurs)
+D29<-lm(Depth~1, data=Dinosaurs)
 summary(D27)
 hist(Dinosaurs$Iridium)
 ```
@@ -162,7 +162,7 @@ Datset 30:
 ```{r}
 data("Putts1")
 glimpse(Putts1)
-D30<-lm(Length~0, data=Putts1)
+D30<-lm(Length~1, data=Putts1)
 summary(D30)
 hist(Putts1$Length)
 ```
@@ -190,6 +190,7 @@ m_norm <- data.frame(id=as.character(1:300),
                   value=x2, 
                   stringsAsFactors=F)
 hist(m_norm$value)
+C2<-lm(value~1, data=m_norm)
 ```
 
 Control Set 3:
@@ -201,6 +202,7 @@ l_norm <- data.frame(id=as.character(1:1000),
                   value=x3, 
                   stringsAsFactors=F)
 hist(l_norm$value)
+C3<-lm(value~1, data=l_norm)
 ```
 
 Control Set 4:
@@ -212,6 +214,7 @@ s_right <- data.frame(id=as.character(1:35),
                   value=x4, 
                   stringsAsFactors=F)
 hist(s_right$value)
+C4<-lm(value~1, data=s_right)
 ```
 
 
@@ -224,6 +227,7 @@ m_right <- data.frame(id=as.character(1:300),
                   value=x5, 
                   stringsAsFactors=F)
 hist(m_right$value)
+C5<-lm(value~1, data=m_right)
 ```
 
 
@@ -236,6 +240,7 @@ l_right <- data.frame(id=as.character(1:1000),
                   value=x6, 
                   stringsAsFactors=F)
 hist(l_right$value)
+C6<-lm(value~1, data=l_right)
 ```
 
 Control Set 7:
@@ -247,6 +252,7 @@ s_left <- data.frame(id=as.character(1:35),
                   value=x7, 
                   stringsAsFactors=F)
 hist(s_left$value)
+C7<-lm(value~1, data=s_left)
 ```
 
 Control Set 8:
@@ -258,6 +264,7 @@ m_left <- data.frame(id=as.character(1:300),
                   value=x8, 
                   stringsAsFactors=F)
 hist(m_left$value)
+C8<-lm(value~1, data=m_left)
 ```
 
 Control Set 9:
@@ -269,4 +276,5 @@ l_left <- data.frame(id=as.character(1:1000),
                   value=x9, 
                   stringsAsFactors=F)
 hist(l_left$value)
+C9<-lm(value~1, data=l_left)
 ```

@@ -63,6 +63,12 @@ sd_test <- function(data, num, v) {
 }
 ```
 
+```{r}
+#Bonferonni
+car::outlierTest(LM)
+```
+
+Begin Work:
 
 
 

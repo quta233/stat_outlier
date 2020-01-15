@@ -142,4 +142,36 @@ s_norm %>%
 ```
 
 
+```{r}
+test <- function()
+```
+
+
+```{r}
+sd_test <- function(data, num, v) {
+  t1 <- mean(num) + 4*sd(num)
+  t2 <- mean(num) - 4*sd(num)
+  data %>%
+    mutate(id = seq.int(nrow(data))) %>%
+    select(id, v) %>%
+    rename("value" = v) %>%
+    mutate(outlier = if_else(value >= t1 | value <= t2, "yes", "no")) %>%
+    filter(outlier == "yes")
+}
+```
+
+```{r}
+sd_test(s_norm, s_norm$value, "value")
+```
+
+
+```{r}
+mean(s_norm$value) + 2.5*sd(s_norm$value)
+```
+
+```{r}
+sd_test(SeaSlugs, SeaSlugs$Percent, "Percent")
+```
+
+
 

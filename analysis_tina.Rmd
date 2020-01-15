@@ -24,8 +24,8 @@ library(outliers)
 
 
 ```{r}
-chi_square <- function(x) {
-  while(chisq.out.test(x)$p.value < 0.01) {
+chi_square <- function(x, pvalue) {
+  while(chisq.out.test(x)$p.value < pvalue) {
     str <- chisq.out.test(x)$alternative
     print(str)
     n <- as.numeric(unlist(regmatches(str,
@@ -40,9 +40,13 @@ chi_square <- function(x) {
 chi_square(s_norm$value)
 ```
 
+```{r}
+chi_square(SeaSlugs$Percent)
+```
+
 
 ```{r}
-x <- s_norm$value
+x <- SeaSlugs$Percent
 ```
 
 
@@ -74,5 +78,68 @@ plot(cooks.distance(lm(Yards~1, data=TomlinsonRush)))
 
 
 ```{r}
-quantile(s_norm$value, probs = c(0.25, 0.75))
+str <- quantile(s_norm$value, probs = c(0.25, 0.75))
 ```
+
+```{r}
+str
+```
+
+
+
+```{r}
+iqr <- unname(quantile(s_norm$value, probs = c(0.25, 0.75))[c("25%", "75%")])
+```
+
+```{r}
+iqr[1]
+```
+
+```{r}
+try <- iqr[2] - iqr[1]
+```
+
+```{r}
+try
+```
+
+
+```{r}
+IQR_test <- function(data, num, v) {
+  str <- unname(quantile(num, probs = c(0.25, 0.75))[c("25%", "75%")])
+  iqr <- str[2] - str[1]
+  q1 <- str[1] - iqr
+  q3 <- str[2] + iqr
+  data %>%
+    mutate(id = seq.int(nrow(data))) %>%
+    select(id, v) %>%
+    rename("value" = v) %>%
+    mutate(outlier = if_else(value >= q3 | value <= q1, "yes", "no")) %>%
+    filter(outlier == "yes")
+}
+```
+
+```{r}
+IQR_test(s_norm, s_norm$value, "value")
+```
+
+```{r}
+IQR_test(SeaSlugs, SeaSlugs$Percent, "Percent")
+```
+
+
+```{r}
+SeaSlugs %>%
+  mutate(id = seq.int(nrow(SeaSlugs)))
+```
+
+
+```{r}
+s_norm %>% 
+  select(value) %>%
+  mutate(value = as.numeric(value)) %>%
+  mutate(outlier = if_else(value >= 8, "yes", "no"))
+```
+
+
+

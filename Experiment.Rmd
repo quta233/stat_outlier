@@ -24,3 +24,52 @@ chi_square <- function(x, pvalue) {
 }
 ```
 
+```{r}
+cook_distance <- function(data) {
+  cooksd <- cooks.distance(data)
+  plot(cooksd, pch="*", cex=2, main="Influential Obs by Cooks distance")  # plot cook's distance
+  abline(h = 4*mean(cooksd, na.rm=T), col="red")  # add cutoff line
+  text(x=1:length(cooksd)+1, y=cooksd, labels=ifelse(cooksd>4*mean(cooksd, na.rm=T),names(cooksd),""),
+       col="red")
+}
+```
+
+
+```{r}
+IQR_test <- function(data, num, v) {
+  str <- unname(quantile(num, probs = c(0.25, 0.75))[c("25%", "75%")])
+  iqr <- str[2] - str[1]
+  q1 <- str[1] - iqr
+  q3 <- str[2] + iqr
+  data %>%
+    mutate(id = seq.int(nrow(data))) %>%
+    select(id, v) %>%
+    rename("value" = v) %>%
+    mutate(outlier = if_else(value >= q3 | value <= q1, "yes", "no")) %>%
+    filter(outlier == "yes")
+}
+```
+
+```{r}
+sd_test <- function(data, num, v) {
+  t1 <- mean(num) + 4*sd(num)
+  t2 <- mean(num) - 4*sd(num)
+  data %>%
+    mutate(id = seq.int(nrow(data))) %>%
+    select(id, v) %>%
+    rename("value" = v) %>%
+    mutate(outlier = if_else(value >= t1 | value <= t2, "yes", "no")) %>%
+    filter(outlier == "yes")
+}
+```
+
+
+
+
+
+
+
+
+
+
+

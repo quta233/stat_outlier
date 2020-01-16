@@ -16,14 +16,17 @@ library(tidyverse)
 
 ```{r}
 chi_square <- function(x, pvalue) {
-  while(chisq.out.test(x)$p.value < pvalue) {
-    str <- chisq.out.test(x)$alternative
+  acs <- x %>% sort()
+  t <- 0
+  while(chisq.out.test(acs)$p.value < pvalue) {
+    str <- chisq.out.test(acs)$alternative
     print(str)
     n <- as.numeric(unlist(regmatches(str,
                                     gregexpr("(?<=value)(.*)(?=is an outlier)", str, perl = T))))
-    x <- x[x != n]
-    print(length(x))
+    acs <- acs[acs != n]
+    t <- t +1
   }
+  print(t)
 }
 ```
 
@@ -79,7 +82,7 @@ Begin Work:
 
 Data1 :
 ```{r}
-chi_square(nfl_1$elo1_post, 0.05)
+chi_square(nfl_1$elo1_post, 0.03)
 cook_distance(D1)
 IQR_test(nfl_1, nfl_1$elo1_post, "elo1_post")
 sd_test(nfl_1, nfl_1$elo1_post, "elo1_post")
@@ -92,8 +95,14 @@ cooksd
 ```
 
 
+```{r}
+x <- nfl_1$elo1_post %>% sort()
+```
 
 
+```{r}
+x
+```
 
 
 

@@ -40,8 +40,10 @@ cabinet_5 <- cabinet_5 %>%
 
 
 ```{r}
-nfl_1 <- nfl_1 %>% filter(season >= 2000)
-nfl_1 <- nfl_1 %>% select(elo1_post)
+nfl_1 <- nfl_1 %>% 
+  filter(season >= 2000) %>% 
+  select(elo1_post) %>%
+  filter(!is.na(elo1_post))
 ```
 
 
@@ -100,6 +102,10 @@ summary(D23)
 hist(Kershaw$StartSpeed)
 ```
 
+```{r}
+car::outlierTest(D23)
+```
+
 
 Dataset 24:
 ```{r}
@@ -153,7 +159,7 @@ Dataset 29:
 data("Dinosaurs")
 glimpse(Dinosaurs)
 D29<-lm(Depth~1, data=Dinosaurs)
-summary(D27)
+summary(D29)
 hist(Dinosaurs$Iridium)
 ```
 
@@ -165,6 +171,10 @@ glimpse(Putts1)
 D30<-lm(Length~1, data=Putts1)
 summary(D30)
 hist(Putts1$Length)
+```
+
+```{r}
+car::outlierTest(D30)
 ```
 
 

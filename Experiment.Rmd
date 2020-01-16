@@ -9,7 +9,10 @@ library(Stat2Data)
 library(mosaic)
 library(car)
 library(outliers)
+library(tidyverse)
 ```
+
+
 
 ```{r}
 chi_square <- function(x, pvalue) {
@@ -25,19 +28,23 @@ chi_square <- function(x, pvalue) {
 ```
 
 ```{r}
-cook_distance <- function(data) {
-  cooksd <- cooks.distance(data)
-  plot(cooksd, pch="*", cex=2, main="Influential Obs by Cooks distance")  # plot cook's distance
-  abline(h = 4*mean(cooksd, na.rm=T), col="red")  # add cutoff line
-  text(x=1:length(cooksd)+1, y=cooksd, labels=ifelse(cooksd>4*mean(cooksd, na.rm=T),names(cooksd),""),
-       col="red")
+cook_distance <- function(lm) {
+  cooksd <- cooks.distance(lm)
+  k <- 4*mean(cooksd)
+  data <- data.frame(id=as.character(1:length(cooksd)), 
+                  value=cooksd, 
+                  stringsAsFactors=F)
+  data %>%
+    mutate(id = seq.int(nrow(data))) %>%
+    mutate(outlier = if_else(value >= k, "yes", "no")) %>%
+    filter(outlier == "yes")
 }
 ```
 
 
 ```{r}
 IQR_test <- function(data, num, v) {
-  str <- unname(quantile(num, probs = c(0.25, 0.75))[c("25%", "75%")])
+  str <- unname(quantile(num, probs = c(0.25, 0.75), na.rm = TRUE)[c("25%", "75%")])
   iqr <- str[2] - str[1]
   q1 <- str[1] - iqr
   q3 <- str[2] + iqr
@@ -70,6 +77,19 @@ car::outlierTest(LM)
 
 Begin Work:
 
+Data1 :
+```{r}
+chi_square(nfl_1$elo1_post, 0.05)
+cook_distance(D1)
+IQR_test(nfl_1, nfl_1$elo1_post, "elo1_post")
+sd_test(nfl_1, nfl_1$elo1_post, "elo1_post")
+```
+
+
+```{r}
+cooksd <- cooks.distance(D1)
+cooksd
+```
 
 
 

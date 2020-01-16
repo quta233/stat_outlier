@@ -174,4 +174,61 @@ sd_test(SeaSlugs, SeaSlugs$Percent, "Percent")
 ```
 
 
+```{r}
+IQR_test(nfl_1, nfl_1$elo1_post, "elo1_post")
+```
+
+```{r}
+quantile(nfl_1$elo1_post, probs = c(0.25, 0.75), na.rm = TRUE)
+```
+
+```{r}
+cook_distance <- function(data) {
+  cooksd <- cooks.distance(data)
+  plot(cooksd, pch="*", cex=2, main="Influential Obs by Cooks distance")  # plot cook's distance
+  abline(h = 4*mean(cooksd, na.rm=T), col="red")  # add cutoff line
+  text(x=1:length(cooksd)+1, y=cooksd, labels=ifelse(cooksd>4*mean(cooksd, na.rm=T),names(cooksd),""),
+       col="red")
+}
+```
+
+```{r}
+cooksd <- cooks.distance(C1)
+```
+
+```{r}
+k <- 4*mean(cooksd)
+```
+
+```{r}
+try1 <- data.frame(id=as.character(1:length(cooksd)), 
+                  value=cooksd, 
+                  stringsAsFactors=F)
+```
+
+```{r}
+try1 %>%
+    mutate(outlier = if_else(value >= k, "yes", "no")) %>%
+    filter(outlier == "yes")
+```
+
+
+```{r}
+cook_distance <- function(lm) {
+  cooksd <- cooks.distance(lm)
+  k <- 4*mean(cooksd)
+  data <- data.frame(id=as.character(1:length(cooksd)), 
+                  value=cooksd, 
+                  stringsAsFactors=F)
+  data %>%
+    mutate(id = seq.int(nrow(data))) %>%
+    mutate(outlier = if_else(value >= k, "yes", "no")) %>%
+    filter(outlier == "yes")
+}
+```
+
+
+```{r}
+cook_distance(D1)
+```
 

@@ -87,8 +87,10 @@ sd_test(nfl_1, nfl_1$elo1_post, "elo1_post")
 
 
 ```{r}
-cooksd <- cooks.distance(D1)
-cooksd
+cook_distance(D2)
+IQR_test(top50_3, top50_3$Beats.Per.Minute, "Beats.Per.Minute")
+sd_test(top50_3, top50_3$Beats.Per.Minute, "Beats.Per.Minute")
+
 ```
 
 

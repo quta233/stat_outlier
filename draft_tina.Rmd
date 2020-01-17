@@ -27,15 +27,18 @@ nfl_1 <- read_csv("nfl_elo.csv")
 ```
 
 ```{r}
-airbnb_6 <- airbnb_6 %>% select(price, number_of_reviews)
+airbnb_6 <- airbnb_6 %>% 
+  select(price, number_of_reviews) %>% 
+  mutate(number_of_reviews = as.numeric(number_of_reviews)) %>%
+  filter(!is.na(number_of_reviews))
 ```
+
 
 ```{r}
-cabinet_5 <- cabinet_5 %>% 
-  filter(!is.na(length)) %>%
-  mutate(length = as.numeric(length))
+cabinet_5 <- cabinet_5 %>%
+  mutate(length = as.numeric(length)) %>% 
+  filter(!is.na(length))
 ```
-
 
 
 
@@ -74,9 +77,7 @@ summary(D3)
 hist(cabinet_5$length)
 ```
 
-```{r}
-airbnb_6 <- airbnb_6 %>% mutate(number_of_reviews = as.numeric(number_of_reviews))
-```
+
 
 
 Dataset 5:

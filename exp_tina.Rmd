@@ -1,0 +1,176 @@
+---
+title: "exp_tina"
+author: "Tina Liu"
+date: "2020/1/16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+chi_square <- function (x, pvalue = 0.03, opposite = FALSE) {
+    x <- sort(x[complete.cases(x)])
+    variance <- var(x)
+    mea <- mean(x)
+    n <- length(x)
+    i <- 1
+    pval <- chisq.out.test(x, opposite = opposite)$p.value
+    num <- 0
+    while(pval < pvalue) {
+      if (xor(((x[n] - mea) < (mea - x[i])), opposite)) {
+        alt = paste("lowest value", x[i], "is an outlier")
+        chi <- (mea - x[i])^2/variance
+        i <- i + 1
+        }
+      else {
+        alt = paste("highest value", x[n], "is an outlier")
+        chi <- (x[n] - mea)^2/variance
+        n <- n - 1
+        }
+      pval <- 1 - pchisq(chi, 1)
+      print(alt)
+      num <- num + 1
+    }
+    print(num)
+}
+```
+
+Data 3:
+```{r}
+chi_square(cabinet_5$length, 0.03)
+chi_square(cabinet_5$length, 0.03, opposite = TRUE)
+cook_distance(D3)
+IQR_test(cabinet_5, cabinet_5$length, "length")
+sd_test(cabinet_5, cabinet_5$length, "length")
+```
+
+
+
+Data 4:
+```{r}
+chi_square(Cereal$Sugar, 0.03)
+chi_square(Cereal$Sugar, 0.03, opposite = TRUE)
+cook_distance(D4)
+IQR_test(Cereal, Cereal$Sugar, "Sugar")
+sd_test(Cereal, Cereal$Sugar, "Sugar")
+```
+
+
+Data 5:
+```{r}
+chi_square(airbnb_6$number_of_reviews, 0.03)
+chi_square(airbnb_6$number_of_reviews, 0.03, opposite = TRUE)
+cook_distance(D5)
+IQR_test(airbnb_6, airbnb_6$number_of_reviews, "number_of_reviews")
+sd_test(airbnb_6, airbnb_6$number_of_reviews, "number_of_reviews")
+```
+
+
+Data 6:
+```{r}
+chi_square(SATGPA$MathSAT, 0.03)
+chi_square(SATGPA$MathSAT, 0.03, opposite = TRUE)
+cook_distance(D6)
+IQR_test(SATGPA, SATGPA$MathSAT, "MathSAT")
+sd_test(SATGPA, SATGPA$MathSAT, "MathSAT")
+```
+
+
+Data 7:
+```{r}
+chi_square(KeyWestWater$WaterTemp, 0.03)
+chi_square(KeyWestWater$WaterTemp, 0.03, opposite = TRUE)
+cook_distance(D7)
+IQR_test(KeyWestWater, KeyWestWater$WaterTemp, "WaterTemp")
+sd_test(KeyWestWater, KeyWestWater$WaterTemp, "WaterTemp")
+```
+
+
+Data 8:
+```{r}
+chi_square(FirstYearGPA$GPA, 0.03)
+cook_distance(D8)
+IQR_test(FirstYearGPA, FirstYearGPA$GPA, "GPA")
+sd_test(FirstYearGPA, FirstYearGPA$GPA, "GPA")
+```
+
+
+Data 9:
+```{r}
+chi_square(Diamonds2$Carat, 0.03)
+cook_distance(D9)
+IQR_test(Diamonds2, Diamonds2$Carat, "Carat")
+sd_test(Diamonds2, Diamonds2$Carat, "Carat")
+```
+
+
+Data 10:
+```{r}
+chi_square(MLBStandings2016$Runs, 0.03)
+cook_distance(D10)
+IQR_test(MLBStandings2016, MLBStandings2016$Runs, "Runs")
+sd_test(MLBStandings2016, MLBStandings2016$Runs, "Runs")
+```
+
+
+Data 11:
+```{r}
+chi_square(PeaceBridge2012$Traffic, 0.03)
+cook_distance(D11)
+IQR_test(PeaceBridge2012, PeaceBridge2012$Traffic, "Traffic")
+sd_test(PeaceBridge2012, PeaceBridge2012$Traffic, "Traffic")
+```
+
+
+Data 12:
+```{r}
+chi_square(Perch$Weight, 0.03)
+cook_distance(D12)
+IQR_test(Perch, Perch$Weight, "Weight")
+sd_test(Perch, Perch$Weight, "Weight")
+```
+
+
+Data 13:
+```{r}
+chi_square(Houses$Price, 0.03)
+cook_distance(D13)
+IQR_test(Houses, Houses$Price, "Price")
+sd_test(Houses, Houses$Price, "Price")
+```
+
+
+Data 14:
+```{r}
+chi_square(Fertility$E2, 0.03)
+cook_distance(D14)
+IQR_test(Fertility, Fertility$E2, "E2")
+sd_test(Fertility, Fertility$E2, "E2")
+```
+
+
+
+
+```{r}
+car::outlierTest(D12)
+```
+
+```{r}
+car::outlierTest(D5, n.max = 500)
+```
+
+
+```{r}
+outlierTest(D13, cutoff = 1)
+```
+
+
+
+```{r}
+chi(top50_3$Beats.Per.Minute)
+```
+
+
+

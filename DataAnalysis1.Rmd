@@ -64,7 +64,7 @@ data("Diamonds2")
 D9<-lm(Carat~1, data=Diamonds2 )
 summary(D9)
 hist(Diamonds2$Carat)
-```
+``` 
 Dataset 10:
 ```{r}
 data("MLBStandings2016")

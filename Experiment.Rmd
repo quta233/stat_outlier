@@ -20,7 +20,6 @@ chi_square <- function(x, pvalue) {
   t <- 0
   while(chisq.out.test(acs)$p.value < pvalue) {
     str <- chisq.out.test(acs)$alternative
-    print(str)
     n <- as.numeric(unlist(regmatches(str,
                                     gregexpr("(?<=value)(.*)(?=is an outlier)", str, perl = T))))
     acs <- acs[acs != n]
@@ -49,8 +48,8 @@ cook_distance <- function(lm) {
 IQR_test <- function(data, num, v) {
   str <- unname(quantile(num, probs = c(0.25, 0.75), na.rm = TRUE)[c("25%", "75%")])
   iqr <- str[2] - str[1]
-  q1 <- str[1] - iqr
-  q3 <- str[2] + iqr
+  q1 <- str[1] - 1.5*iqr
+  q3 <- str[2] + 1.5*iqr
   data %>%
     mutate(id = seq.int(nrow(data))) %>%
     select(id, v) %>%
@@ -62,8 +61,8 @@ IQR_test <- function(data, num, v) {
 
 ```{r}
 sd_test <- function(data, num, v) {
-  t1 <- mean(num) + 4*sd(num)
-  t2 <- mean(num) - 4*sd(num)
+  t1 <- mean(num) + 2.5*sd(num)
+  t2 <- mean(num) - 2.5*sd(num)
   data %>%
     mutate(id = seq.int(nrow(data))) %>%
     select(id, v) %>%
@@ -88,25 +87,95 @@ IQR_test(nfl_1, nfl_1$elo1_post, "elo1_post")
 sd_test(nfl_1, nfl_1$elo1_post, "elo1_post")
 ```
 
-
+Data2
 ```{r}
+chi_square(top50_3$Beats.Per.Minute, 0.03)
 cook_distance(D2)
 IQR_test(top50_3, top50_3$Beats.Per.Minute, "Beats.Per.Minute")
 sd_test(top50_3, top50_3$Beats.Per.Minute, "Beats.Per.Minute")
 
 ```
 
+Data 3-14 -Tina
 
+Data 15
 ```{r}
-x <- nfl_1$elo1_post %>% sort()
+chi_square(LeveeFailures$VegWidth, 0.03)
+cook_distance(D15)
+IQR_test(LeveeFailures, LeveeFailures$VegWidth, "VegWidth")
+sd_test(LeveeFailures, LeveeFailures$VegWidth, "VegWidth")
+```
+Data 16
+```{r}
+chi_square(Retirement$SRA, 0.03)
+cook_distance(D16)
+IQR_test(Retirement, Retirement$SRA, "SRA")
+sd_test(Retirement, Retirement$SRA, "SRA")
+```
+Data 17
+```{r}
+chi_square(CO2Hawaii$CO2, 0.03)
+cook_distance(D17)
+IQR_test(CO2Hawaii, CO2Hawaii$CO2, "CO2")
+sd_test(CO2Hawaii, CO2Hawaii$CO2, "CO2")
+```
+Data 18
+```{r}
+chi_square(Faces$SHR, 0.03)
+cook_distance(D18)
+IQR_test(Faces, Faces$SHR, "SHR")
+sd_test(Faces, Faces$SHR, "SHR")
 ```
 
-
+Data 19
 ```{r}
-x
+chi_square(Kids198$Weight, 0.03)
+cook_distance(D19)
+IQR_test(Kids198, Kids198$Weight, "Weight")
+sd_test(Kids198, Kids198$Weight, "Weight")
+```
+Data 20
+```{r}
+chi_square(BirdNest$Length, 0.03)
+cook_distance(D20)
+IQR_test(BirdNest, BirdNest$Length, "Length")
+sd_test(BirdNest, BirdNest$Length, "Length")
+```
+Data 21
+```{r}
+chi_square(HawkTail$Tail, 0.03)
+cook_distance(D21)
+IQR_test(HawkTail, HawkTail$Tail, "Tail")
+sd_test(HawkTail, HawkTail$Tail, "Tail")
+```
+Data 22
+```{r}
+chi_square(AppleStock$Price, 0.03)
+cook_distance(D22)
+IQR_test(AppleStock, AppleStock$Price, "Price")
+sd_test(AppleStock, AppleStock$Price, "Price")
+```
+Data 23
+```{r}
+chi_square(Kershaw$StartSpeed, 0.03)
+cook_distance(D23)
+IQR_test(Kershaw, Kershaw$StartSpeed, "StartSpeed")
+sd_test(Kershaw, Kershaw$StartSpeed, "StartSpeed")
+```
+Data 24
+```{r}
+chi_square(SeaIce$Extent, 0.03)
+cook_distance(D24)
+IQR_test(SeaIce, SeaIce$Extent, "Extent")
+sd_test(SeaIce, SeaIce$Extent, "Extent")
 ```
 
+Data 25
+```{r}
+chi_square(TomlinsonRush$Yards, 0.03)
+cook_distance(D25)
+IQR_test(TomlinsonRush, TomlinsonRush$Yards, "Yards")
+sd_test(TomlinsonRush, TomlinsonRush$Yards, "Yards")
 
-
-
+```
 

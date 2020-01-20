@@ -1,0 +1,78 @@
+---
+title: "finalAnalysis_tina"
+author: "Tina Liu"
+date: "2020/1/20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(Stat2Data)
+library(mosaic)
+library(car)
+library(outliers)
+library(tidyverse)
+library(sn)
+``` 
+
+```{r}
+record <- read_csv("WT Data Record .csv")
+```
+
+```{r}
+record
+```
+
+
+```{r}
+record <- record %>%
+  filter(!is.na(N)) %>%
+  rename("setName" = "SetName",
+         "size" = "Size",
+         "n" = "N",
+         "distribution" = "Distribution",
+         "csq" = "CSQ",
+         "cook" = "COOK",
+         "iqr" = "IQR",
+         "sd" = "SD",
+         "bonf" = "BONF")
+```
+
+
+
+```{r}
+record %>%
+  mutate(pcsq = csq / n,
+         pcook = cook / n,
+         piqr = iqr / n,
+         psd = sd / n,
+         pbonf = bonf / n) %>%
+  group_by(distribution) %>%
+  summarize(mcsq = mean(pcsq))
+```
+
+
+
+
+```{r}
+record %>% ggplot(aes(x = N, y = SetName)) +
+  geom_point()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

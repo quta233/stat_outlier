@@ -65,12 +65,60 @@ record %>%
 
 
 ```{r}
-record %>% ggplot(aes(x = N, y = SetName)) +
-  geom_point()
+#record %>% ggplot(aes(x = N, y = SetName)) +
+ # geom_point()
+```
+
+```{r}
+record <- record %>% mutate(id = seq.int(nrow(record)))
+```
+
+```{r}
+record
 ```
 
 
+```{r}
+rlm1 <- glm(pcsq~id, data=record)
+summary(rlm1)
+gf_point(pcsq ~id,
+data = record) %>%
+gf_smooth(linetype = "dashed",
+color = "red") %>%
+gf_lm(size = 1.5)
 
+rlm2 <- glm(pcook~id, data=record)
+summary(rlm2)
+gf_point(pcook ~id,
+data = record) %>%
+gf_smooth(linetype = "dashed",
+color = "red") %>%
+gf_lm(size = 1.5)
+
+rlm3 <- glm(piqr~id, data=record)
+summary(rlm3)
+gf_point(piqr ~id,
+data = record) %>%
+gf_smooth(linetype = "dashed",
+color = "red") %>%
+gf_lm(size = 1.5)
+
+rlm4 <- glm(psd~id, data=record)
+summary(rlm4)
+gf_point(psd ~id,
+data = record) %>%
+gf_smooth(linetype = "dashed",
+color = "red") %>%
+gf_lm(size = 1.5)
+
+rlm5 <- glm(pbonf~id, data=record)
+summary(rlm5)
+gf_point(pbonf ~id,
+data = record) %>%
+gf_smooth(linetype = "dashed",
+color = "red") %>%
+gf_lm(size = 1.5)
+```
 
 
 

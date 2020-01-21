@@ -15,17 +15,30 @@ library(tidyverse)
 
 
 ```{r}
-chi_square <- function(x, pvalue) {
-  acs <- x %>% sort()
-  t <- 0
-  while(chisq.out.test(acs)$p.value < pvalue) {
-    str <- chisq.out.test(acs)$alternative
-    n <- as.numeric(unlist(regmatches(str,
-                                    gregexpr("(?<=value)(.*)(?=is an outlier)", str, perl = T))))
-    acs <- acs[acs != n]
-    t <- t +1
-  }
-  print(t)
+chi_square <- function (x, pvalue = 0.03, opposite = FALSE) {
+    x <- sort(x[complete.cases(x)])
+    variance <- var(x)
+    mea <- mean(x)
+    n <- length(x)
+    i <- 1
+    pval <- chisq.out.test(x, opposite = opposite)$p.value
+    num <- 0
+    while(pval < pvalue) {
+      if (xor(((x[n] - mea) < (mea - x[i])), opposite)) {
+        alt = paste("lowest value", x[i], "is an outlier")
+        chi <- (mea - x[i])^2/variance
+        i <- i + 1
+        }
+      else {
+        alt = paste("highest value", x[n], "is an outlier")
+        chi <- (x[n] - mea)^2/variance
+        n <- n - 1
+        }
+      pval <- 1 - pchisq(chi, 1)
+      print(alt)
+      num <- num + 1
+    }
+    print(num)
 }
 ```
 

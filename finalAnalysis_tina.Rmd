@@ -44,17 +44,24 @@ record <- record %>%
 
 
 ```{r}
-record %>%
+record <- record %>%
   mutate(pcsq = csq / n,
          pcook = cook / n,
          piqr = iqr / n,
          psd = sd / n,
-         pbonf = bonf / n) %>%
-  group_by(distribution) %>%
-  summarize(mcsq = mean(pcsq))
+         pbonf = bonf / n)
 ```
 
 
+```{r}
+record %>%
+  group_by(distribution) %>%
+  summarize(mcsq = mean(pcsq),
+            mcook = mean(pcook),
+            miqr = mean(piqr),
+            msd = mean(psd),
+            mbonf = mean(pbonf))
+```
 
 
 ```{r}

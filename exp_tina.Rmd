@@ -17,7 +17,7 @@ chi_square <- function (x, pvalue = 0.03, opposite = FALSE) {
     n <- length(x)
     i <- 1
     pval <- chisq.out.test(x, opposite = opposite)$p.value
-    num <- 0
+    num <- -1
     while(pval < pvalue) {
       if (xor(((x[n] - mea) < (mea - x[i])), opposite)) {
         alt = paste("lowest value", x[i], "is an outlier")
@@ -40,10 +40,10 @@ chi_square <- function (x, pvalue = 0.03, opposite = FALSE) {
 Data 3:
 ```{r}
 chi_square(cabinet_5$length, 0.03)
-chi_square(cabinet_5$length, 0.03, opposite = TRUE)
 cook_distance(D3)
 IQR_test(cabinet_5, cabinet_5$length, "length")
 sd_test(cabinet_5, cabinet_5$length, "length")
+outlierTest(D3, n.max = Inf)
 ```
 
 
@@ -51,40 +51,40 @@ sd_test(cabinet_5, cabinet_5$length, "length")
 Data 4:
 ```{r}
 chi_square(Cereal$Sugar, 0.03)
-chi_square(Cereal$Sugar, 0.03, opposite = TRUE)
 cook_distance(D4)
 IQR_test(Cereal, Cereal$Sugar, "Sugar")
 sd_test(Cereal, Cereal$Sugar, "Sugar")
+outlierTest(D4, n.max = Inf)
 ```
 
 
 Data 5:
 ```{r}
 chi_square(airbnb_6$number_of_reviews, 0.03)
-chi_square(airbnb_6$number_of_reviews, 0.03, opposite = TRUE)
 cook_distance(D5)
 IQR_test(airbnb_6, airbnb_6$number_of_reviews, "number_of_reviews")
 sd_test(airbnb_6, airbnb_6$number_of_reviews, "number_of_reviews")
+outlierTest(D5, n.max = Inf)
 ```
 
 
 Data 6:
 ```{r}
 chi_square(SATGPA$MathSAT, 0.03)
-chi_square(SATGPA$MathSAT, 0.03, opposite = TRUE)
 cook_distance(D6)
 IQR_test(SATGPA, SATGPA$MathSAT, "MathSAT")
 sd_test(SATGPA, SATGPA$MathSAT, "MathSAT")
+outlierTest(D6, n.max = Inf)
 ```
 
 
 Data 7:
 ```{r}
 chi_square(KeyWestWater$WaterTemp, 0.03)
-chi_square(KeyWestWater$WaterTemp, 0.03, opposite = TRUE)
 cook_distance(D7)
 IQR_test(KeyWestWater, KeyWestWater$WaterTemp, "WaterTemp")
 sd_test(KeyWestWater, KeyWestWater$WaterTemp, "WaterTemp")
+outlierTest(D7, n.max = Inf)
 ```
 
 
@@ -94,6 +94,7 @@ chi_square(FirstYearGPA$GPA, 0.03)
 cook_distance(D8)
 IQR_test(FirstYearGPA, FirstYearGPA$GPA, "GPA")
 sd_test(FirstYearGPA, FirstYearGPA$GPA, "GPA")
+outlierTest(D8, n.max = Inf)
 ```
 
 
@@ -103,6 +104,7 @@ chi_square(Diamonds2$Carat, 0.03)
 cook_distance(D9)
 IQR_test(Diamonds2, Diamonds2$Carat, "Carat")
 sd_test(Diamonds2, Diamonds2$Carat, "Carat")
+outlierTest(D9, n.max = Inf)
 ```
 
 
@@ -112,6 +114,7 @@ chi_square(MLBStandings2016$Runs, 0.03)
 cook_distance(D10)
 IQR_test(MLBStandings2016, MLBStandings2016$Runs, "Runs")
 sd_test(MLBStandings2016, MLBStandings2016$Runs, "Runs")
+outlierTest(D10, n.max = Inf)
 ```
 
 
@@ -121,6 +124,7 @@ chi_square(PeaceBridge2012$Traffic, 0.03)
 cook_distance(D11)
 IQR_test(PeaceBridge2012, PeaceBridge2012$Traffic, "Traffic")
 sd_test(PeaceBridge2012, PeaceBridge2012$Traffic, "Traffic")
+outlierTest(D11, n.max = Inf)
 ```
 
 
@@ -130,6 +134,7 @@ chi_square(Perch$Weight, 0.03)
 cook_distance(D12)
 IQR_test(Perch, Perch$Weight, "Weight")
 sd_test(Perch, Perch$Weight, "Weight")
+outlierTest(D12, n.max = Inf)
 ```
 
 
@@ -139,6 +144,7 @@ chi_square(Houses$Price, 0.03)
 cook_distance(D13)
 IQR_test(Houses, Houses$Price, "Price")
 sd_test(Houses, Houses$Price, "Price")
+outlierTest(D13, n.max = Inf)
 ```
 
 
@@ -148,29 +154,54 @@ chi_square(Fertility$E2, 0.03)
 cook_distance(D14)
 IQR_test(Fertility, Fertility$E2, "E2")
 sd_test(Fertility, Fertility$E2, "E2")
+outlierTest(D14, n.max = Inf)
 ```
 
 
-
-
+Data 26:
 ```{r}
-car::outlierTest(D12)
+chi_square(BlueJays$BillDepth, 0.03)
+cook_distance(D26)
+IQR_test(BlueJays, BlueJays$BillDepth, "BillDepth")
+sd_test(BlueJays, BlueJays$BillDepth, "BillDepth")
+outlierTest(D26, n.max = Inf)
 ```
 
+Data 27:
 ```{r}
-car::outlierTest(D5, n.max = 500)
+chi_square(WalkTheDogs$Kcal, 0.03)
+cook_distance(D27)
+IQR_test(WalkTheDogs, WalkTheDogs$Kcal, "Kcal")
+sd_test(WalkTheDogs, WalkTheDogs$Kcal, "Kcal")
+outlierTest(D27, n.max = Inf)
 ```
 
-
+Data 28:
 ```{r}
-outlierTest(D13, cutoff = 1)
+chi_square(SeaSlugs$Percent, 0.03)
+cook_distance(D28)
+IQR_test(SeaSlugs, SeaSlugs$Percent, "Percent")
+sd_test(SeaSlugs, SeaSlugs$Percent, "Percent")
+outlierTest(D28, n.max = Inf)
 ```
 
-
-
+Data 29:
 ```{r}
-chi(top50_3$Beats.Per.Minute)
+chi_square(Dinosaurs$Iridium, 0.03)
+cook_distance(D29)
+IQR_test(Dinosaurs, Dinosaurs$Iridium, "Iridium")
+sd_test(Dinosaurs, Dinosaurs$Iridium, "Iridium")
+outlierTest(D29, n.max = Inf)
 ```
 
+
+Data 30:
+```{r}
+chi_square(Putts1$Length, 0.03)
+cook_distance(D30)
+IQR_test(Putts1, Putts1$Length, "Length")
+sd_test(Putts1, Putts1$Length, "Length")
+outlierTest(D30, n.max = Inf)
+```
 
 

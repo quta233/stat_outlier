@@ -19,7 +19,7 @@ library(sn)
 ``` 
 
 ```{r}
-record <- read_csv("WT Data Record .csv")
+record <- read_csv("WT Data Record2.csv")
 ```
 
 ```{r}
@@ -121,10 +121,78 @@ gf_lm(size = 1.5)
 ```
 
 
+```{r}
+record %>%
+  group_by(distribution) %>%
+  ggplot(aes(x = distribution, y = pcsq)) +
+  geom_boxplot()
+```
+
+```{r}
+record
+```
+
+```{r}
+record %>%
+  ggplot(aes(x = id)) +
+  geom_line(aes(y = csq, color = "csq")) +
+  geom_line(aes(y = cook, color = "cook")) +
+  geom_line(aes(y = iqr, color = "iqr")) +
+  geom_line(aes(y = sd, color = "sd")) +
+  geom_line(aes(y = bonf, color = "bonf")) +
+  scale_color_manual( 
+    name = "Method",
+    values = c("csq"= "black", "cook" = "blue", "iqr" = "red", "sd" = "green", "bonf" = "orange"))
+```
+
+
+```{r}
+record %>%
+  filter(id != 5 & id != 23 & id != 1) %>%
+  ggplot(aes(x = id)) +
+  geom_line(aes(y = csq, color = "csq")) +
+  geom_line(aes(y = cook, color = "cook")) +
+  geom_line(aes(y = iqr, color = "iqr")) +
+  geom_line(aes(y = sd, color = "sd")) +
+  geom_line(aes(y = bonf, color = "bonf")) +
+  scale_color_manual( 
+    name = "Method",
+    values = c("csq"= "black", "cook" = "blue", "iqr" = "red", "sd" = "green", "bonf" = "orange"))
+```
+
+```{r}
+record %>%
+  filter(id != 5 & id != 23 & id != 1) %>%
+  ggplot(aes(x = id)) +
+  geom_point(aes(y = csq, color = "csq")) +
+  geom_point(aes(y = cook, color = "cook")) +
+  geom_point(aes(y = iqr, color = "iqr")) +
+  geom_point(aes(y = sd, color = "sd")) +
+  geom_point(aes(y = bonf, color = "bonf")) +
+  scale_color_manual( 
+    name = "Method",
+    values = c("csq"= "black", "cook" = "blue", "iqr" = "red", "sd" = "green", "bonf" = "orange"))
+```
 
 
 
+```{r}
+record %>%
+  ggplot(aes(x = id)) +
+  geom_line(aes(y = pcsq, color = "csq")) +
+  geom_line(aes(y = pcook, color = "cook")) +
+  geom_line(aes(y = piqr, color = "iqr")) +
+  geom_line(aes(y = psd, color = "sd")) +
+  geom_line(aes(y = pbonf, color = "bonf")) +
+  scale_color_manual( 
+    name = "Method",
+    values = c("csq"= "black", "cook" = "blue", "iqr" = "red", "sd" = "green", "bonf" = "orange"))
+```
 
+
+```{r}
+record
+```
 
 
 

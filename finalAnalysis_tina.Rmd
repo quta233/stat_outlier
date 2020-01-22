@@ -120,7 +120,22 @@ color = "red") %>%
 gf_lm(size = 1.5)
 ```
 
+```{r}
 
+iqvsd <- glm(piqr~psd, data=record)
+summary(iqvsd)
+gf_point(piqr ~psd,
+data = record) %>%
+gf_smooth(linetype = "dashed",
+color = "red") %>%
+gf_lm(size = 1.5)
+```
+
+
+```{r}
+ a1 <- aov(iqvsd)
+summary(a1)
+```
 
 
 

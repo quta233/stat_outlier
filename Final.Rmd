@@ -92,9 +92,16 @@ sd_test <- function(data, num, v) {
 ```
 
 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+cabinet_5 <- read_csv("cabinet-turnover.csv")
+cabinet_5 <- cabinet_5 %>%
+  mutate(length = as.numeric(length)) %>% 
+  filter(!is.na(length))
+```
+
 
 ```{r}
-glimpse(cabinet_5)
+#glimpse(cabinet_5)
 D3 <- lm(length~1, data = cabinet_5)
 summary(D3)
 hist(cabinet_5$length)

@@ -17,7 +17,14 @@ library(mosaic)
 library(car)
 library(outliers)
 ```
+Outlier Analysis
 
+The goal of this research project is to compare the outputs of different methods of outlier detection on a variety of different datasets and will attempt to draw conclusions about the relative conservativeness of a given outlier test on data sets of certain distributions and sizes. 
+
+We randomly selected 30 real-world datasets from various experiments and studies and inserted 9 control of each size: Small (x<70), Medium(70<x<500), Large(500<x) and of the 3 common distribution types of the sample: Right Skew, Normal, and Left Skew. We ran 5 Outlier tests on them (R functions will be shown below) :
+
+
+Chi Square: The Chi square test utilizes the mean divided by the variance and analyzes the most extreme value, outputting a p-value to show its likelihood of being an outlier.
 
 ```{r}
 chi_square <- function (x, pvalue = 0.03, opposite = FALSE) {
@@ -47,6 +54,7 @@ chi_square <- function (x, pvalue = 0.03, opposite = FALSE) {
 }
 ```
 
+Cook’s Distance: This test measures the Cook’s Distance of each point, a measure of influence, and isolates any point with more than 4 times the mean cook’s distance as an outlier.
 
 ```{r}
 cook_distance <- function(lm) {
@@ -62,6 +70,7 @@ cook_distance <- function(lm) {
 }
 ```
 
+1.5 IQR: This uses the interquartile range (Q3 - Q1) and creates a boundary 1.5 * IQR below Q1 and 1.5* IQR above Q3 to isolate outliers.
 
 ```{r}
 IQR_test <- function(data, num, v) {
@@ -78,6 +87,8 @@ IQR_test <- function(data, num, v) {
 }
 ```
 
+2.5 SD: This uses the standard deviation to create a boundary 2.5 standard deviations above and below the mean.
+
 ```{r}
 sd_test <- function(data, num, v) {
   t1 <- mean(num) + 2.5*sd(num)
@@ -91,6 +102,8 @@ sd_test <- function(data, num, v) {
 }
 ```
 
+Bonferroni: A test that comes in the outliers R package, it analyzes the most extreme value, extracts a p-value and applies the Bonferroni correction to create a p-value adjusted for the sample size.
+
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 cabinet_5 <- read_csv("cabinet-turnover.csv")
@@ -99,6 +112,8 @@ cabinet_5 <- cabinet_5 %>%
   filter(!is.na(length))
 ```
 
+
+Examples of each test:
 
 ```{r}
 #glimpse(cabinet_5)

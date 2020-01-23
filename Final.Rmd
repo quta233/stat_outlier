@@ -1,0 +1,193 @@
+---
+title: "Final"
+author: "Alex Khater, Tina Liu"
+date: "2020/1/23"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(sn)
+library(Stat2Data)
+library(mosaic)
+library(car)
+library(outliers)
+```
+
+
+```{r}
+chi_square <- function (x, pvalue = 0.03, opposite = FALSE) {
+    x <- sort(x[complete.cases(x)])
+    variance <- var(x)
+    mea <- mean(x)
+    n <- length(x)
+    i <- 1
+    pval <- chisq.out.test(x, opposite = opposite)$p.value
+    num <- -1
+    while(pval < pvalue) {
+      if (xor(((x[n] - mea) < (mea - x[i])), opposite)) {
+        alt = paste("lowest value", x[i], "is an outlier")
+        chi <- (mea - x[i])^2/variance
+        i <- i + 1
+        }
+      else {
+        alt = paste("highest value", x[n], "is an outlier")
+        chi <- (x[n] - mea)^2/variance
+        n <- n - 1
+        }
+      pval <- 1 - pchisq(chi, 1)
+      print(alt)
+      num <- num + 1
+    }
+    print(num)
+}
+```
+
+
+```{r}
+cook_distance <- function(lm) {
+  cooksd <- cooks.distance(lm)
+  k <- 4*mean(cooksd)
+  data <- data.frame(id=as.character(1:length(cooksd)), 
+                  value=cooksd, 
+                  stringsAsFactors=F)
+  data %>%
+    mutate(id = seq.int(nrow(data))) %>%
+    mutate(outlier = if_else(value >= k, "yes", "no")) %>%
+    filter(outlier == "yes")
+}
+```
+
+
+```{r}
+IQR_test <- function(data, num, v) {
+  str <- unname(quantile(num, probs = c(0.25, 0.75), na.rm = TRUE)[c("25%", "75%")])
+  iqr <- str[2] - str[1]
+  q1 <- str[1] - 1.5*iqr
+  q3 <- str[2] + 1.5*iqr
+  data %>%
+    mutate(id = seq.int(nrow(data))) %>%
+    select(id, v) %>%
+    rename("value" = v) %>%
+    mutate(outlier = if_else(value >= q3 | value <= q1, "yes", "no")) %>%
+    filter(outlier == "yes")
+}
+```
+
+```{r}
+sd_test <- function(data, num, v) {
+  t1 <- mean(num) + 2.5*sd(num)
+  t2 <- mean(num) - 2.5*sd(num)
+  data %>%
+    mutate(id = seq.int(nrow(data))) %>%
+    select(id, v) %>%
+    rename("value" = v) %>%
+    mutate(outlier = if_else(value >= t1 | value <= t2, "yes", "no")) %>%
+    filter(outlier == "yes")
+}
+```
+
+
+
+```{r}
+glimpse(cabinet_5)
+D3 <- lm(length~1, data = cabinet_5)
+summary(D3)
+hist(cabinet_5$length)
+```
+
+
+```{r}
+chi_square(cabinet_5$length, 0.03)
+cook_distance(D3)
+IQR_test(cabinet_5, cabinet_5$length, "length")
+sd_test(cabinet_5, cabinet_5$length, "length")
+outlierTest(D3, n.max = Inf)
+```
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+record %>%
+  ggplot(aes(x = id, y = pcsq)) +
+  geom_point() +
+  geom_smooth(
+    linetype = "dashed",
+    color = "red", 
+    se = FALSE) +
+  geom_lm(size = 1.5)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+record %>%
+  ggplot(aes(x = id, y = pcook)) +
+  geom_point() +
+  geom_smooth(
+    linetype = "dashed",
+    color = "red", 
+    se = FALSE) +
+  geom_lm(size = 1.5)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+record %>%
+  ggplot(aes(x = id, y = piqr)) +
+  geom_point() +
+  geom_smooth(
+    linetype = "dashed",
+    color = "red", 
+    se = FALSE) +
+  geom_lm(size = 1.5)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+record %>%
+  ggplot(aes(x = id, y = psd)) +
+  geom_point() +
+  geom_smooth(
+    linetype = "dashed",
+    color = "red", 
+    se = FALSE) +
+  geom_lm(size = 1.5)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+record %>%
+  ggplot(aes(x = id, y = pbonf)) +
+  geom_point() +
+  geom_smooth(
+    linetype = "dashed",
+    color = "red", 
+    se = FALSE) +
+  geom_lm(size = 1.5)
+```
+
+
+```{r}
+record %>%
+  ggplot(aes(x = id)) +
+  geom_line(aes(y = pcsq, color = "csq")) +
+  geom_line(aes(y = pcook, color = "cook")) +
+  geom_line(aes(y = piqr, color = "iqr")) +
+  geom_line(aes(y = psd, color = "sd")) +
+  geom_line(aes(y = pbonf, color = "bonf")) +
+  scale_color_manual( 
+    name = "Method",
+    values = c("csq"= "black", "cook" = "blue", "iqr" = "red", "sd" = "green", "bonf" = "orange")) +
+  ylab("proportion")
+```
+
+
+
+
+
+
+
+
+
+
+
+

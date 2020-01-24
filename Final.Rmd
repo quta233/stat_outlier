@@ -122,7 +122,13 @@ cabinet_5 <- cabinet_5 %>%
 ```
 
 
+<<<<<<< HEAD
 Examples of each test:\
+=======
+Examples of each test:
+
+
+>>>>>>> 20420147cc431172153d7a9357d9369256665e26
 Fig. 1: The distribution of this example dataset.
 ```{r, echo=FALSE, message=FALSE}
 data("SATGPA")
@@ -219,8 +225,22 @@ record %>%
     values = c("csq"= "black", "cook" = "blue", "iqr" = "red", "sd" = "green", "bonf" = "orange")) +
   ylab("proportion")
 ```
-
-
+Fig. X: A linear regression of the Standard Deviation Proportion on the IQR Proportion 
+```{r, echo=FALSE}
+iqvsd <- glm(piqr~psd, data=record)
+summary(iqvsd)
+gf_point(piqr ~psd,
+data = record) %>%
+gf_smooth(linetype = "dashed",
+color = "red") %>%
+gf_lm(size = 1.5)
+```
+Fig X+1: A one way ANOVA Test between the IQR and Standard Deviations mean proportions
+```{r}
+a1 <- aov(iqvsd)
+summary(a1)
+```
+We can see that there is significant evidence to reject the assumption that the means of proportions of the two tests are equal.
 
 
 

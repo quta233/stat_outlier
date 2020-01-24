@@ -2,7 +2,9 @@
 title: "Final"
 author: "Alex Khater, Tina Liu"
 date: "2020/1/23"
-output: html_document
+output:
+  html_document:
+    code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
@@ -48,11 +50,18 @@ chi_square <- function (x, pvalue = 0.03, opposite = FALSE) {
         }
       pval <- 1 - pchisq(chi, 1)
       print(alt)
+      sprintf("p value = ")
       num <- num + 1
     }
     print(num)
 }
 ```
+
+```{r}
+pval = 2
+sprintf("p value = %f", pval)
+```
+
 
 Cook’s Distance: This test measures the Cook’s Distance of each point, a measure of influence, and isolates any point with more than 4 times the mean cook’s distance as an outlier.
 
@@ -113,14 +122,21 @@ cabinet_5 <- cabinet_5 %>%
 ```
 
 
-Examples of each test:
+Examples of each test:\
 Fig. 1: The distribution of this example dataset.
-```{r}
+```{r, echo=FALSE, message=FALSE}
 data("SATGPA")
 D6<-lm(MathSAT~1, data=SATGPA)
-hist(SATGPA$MathSAT)
+SATGPA %>% 
+  ggplot(aes(x = MathSAT)) +
+  geom_histogram() +
+  ggtitle("DIstribution of dataSet SATGPA") +
+  ylab("Frequency") +
+  xlab("Score of SAT Math")
 ```
 
+
+And here are the results of different outlier tests on the dataset:
 
 ```{r}
 chi_square(SATGPA$MathSAT, 0.03)

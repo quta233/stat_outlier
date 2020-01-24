@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 library(tidyverse)
 library(sn)
 library(Stat2Data)
@@ -116,19 +116,40 @@ cabinet_5 <- cabinet_5 %>%
 Examples of each test:
 
 ```{r}
-#glimpse(cabinet_5)
-D3 <- lm(length~1, data = cabinet_5)
-summary(D3)
-hist(cabinet_5$length)
+data("SATGPA")
+D6<-lm(MathSAT~1, data=SATGPA)
+hist(SATGPA$MathSAT)
 ```
 
 
 ```{r}
-chi_square(cabinet_5$length, 0.03)
-cook_distance(D3)
-IQR_test(cabinet_5, cabinet_5$length, "length")
-sd_test(cabinet_5, cabinet_5$length, "length")
-outlierTest(D3, n.max = Inf)
+chi_square(SATGPA$MathSAT, 0.03)
+cook_distance(D6)
+IQR_test(SATGPA, SATGPA$MathSAT, "MathSAT")
+sd_test(SATGPA, SATGPA$MathSAT, "MathSAT")
+outlierTest(D6, n.max = Inf)
+```
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+record <- read_csv("WT Data Record2.csv")
+record <- record %>%
+  filter(!is.na(N)) %>%
+  rename("setName" = "SetName",
+         "size" = "Size",
+         "n" = "N",
+         "distribution" = "Distribution",
+         "csq" = "CSQ",
+         "cook" = "COOK",
+         "iqr" = "IQR",
+         "sd" = "SD",
+         "bonf" = "BONF") %>%
+  mutate(pcsq = csq / n,
+         pcook = cook / n,
+         piqr = iqr / n,
+         psd = sd / n,
+         pbonf = bonf / n)
+record <- record %>% mutate(id = seq.int(nrow(record)))
 ```
 
 
@@ -188,7 +209,7 @@ record %>%
 ```
 
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 record %>%
   ggplot(aes(x = id)) +
   geom_line(aes(y = pcsq, color = "csq")) +

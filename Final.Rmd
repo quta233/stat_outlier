@@ -122,8 +122,10 @@ cabinet_5 <- cabinet_5 %>%
 ```
 
 
-Examples of each test:\
-Fig. 1: The distribution of this example dataset.
+Examples of each test:\\
+Fig. 1: Example dataset:
+
+
 ```{r, echo=FALSE, message=FALSE}
 data("SATGPA")
 D6<-lm(MathSAT~1, data=SATGPA)
@@ -137,6 +139,7 @@ SATGPA %>%
 
 
 And here are the results of different outlier tests on the dataset:
+
 
 ```{r}
 chi_square(SATGPA$MathSAT, 0.03)
@@ -168,44 +171,29 @@ record <- record %>%
 record <- record %>% mutate(id = seq.int(nrow(record)))
 ```
 
-Data:
 
-Fig. 2: The Proportion of samples that were detected as outliers by the Chi Square Test.
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-record %>%
-  ggplot(aes(x = id, y = pcsq)) +
-  geom_point() 
+Fig. 2:
 
-```
-Fig. 3: The Proportion of samples that were detected as outliers by the Cook's Distance Test.
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+```{r}
 record %>%
-  ggplot(aes(x = id, y = pcook)) +
-  geom_point() 
-```
-Fig. 4: The Proportion of samples that were detected as outliers by the 1.5 IQR Test.
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-record %>%
-  ggplot(aes(x = id, y = piqr)) +
-  geom_point() 
-  
-```
-Fig. 5: The Proportion of samples that were detected as outliers by the 2.5 Standard Deviation Test.
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-record %>%
-  ggplot(aes(x = id, y = psd)) +
-  geom_point() 
- 
-```
-Fig. 6: The Proportion of samples that were detected as outliers by the Bonferroni Test.
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-record %>%
-  ggplot(aes(x = id, y = pbonf)) +
-  geom_point() 
- 
+  gather(
+    key = "methods",
+    value = "proportion",
+    pcsq, pcook, piqr, psd, pbonf
+    ) %>%
+  ggplot(aes(x = id, y = proportion, color = methods)) +
+  geom_point() +
+  facet_wrap(~methods) +
+  ylab("Proportion of outliers") +
+  xlab("Number of Datasets") +
+  ggtitle("Proportion of outliers in each dataset detected by each methods")
 ```
 
-Fig. 7: A Comparison of all the Sample Proportions of each outlier test.
+
+Fig. 3:
+
+
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 record %>%
   ggplot(aes(x = id)) +
@@ -217,10 +205,37 @@ record %>%
   scale_color_manual( 
     name = "Method",
     values = c("csq"= "black", "cook" = "blue", "iqr" = "red", "sd" = "green", "bonf" = "orange")) +
-  ylab("proportion")
+  ylab("Proportion of outliers") +
+  xlab("Number of datasets")
 ```
+
+
+
+Fig. 4:
+
+
+
+```{r}
+record %>%
+  gather(
+    key = "methods",
+    value = "proportion",
+    pcsq, pcook, piqr, psd, pbonf
+    ) %>%
+  ggplot(aes(x = distribution, y = proportion, color = methods)) +
+  geom_boxplot() +
+  facet_wrap(~methods) +
+  coord_flip() +
+  theme(axis.text.x = element_text(angle=30, hjust=1)) +
+  ylab("Proportion of outliers") +
+  xlab("Distribution of Datasets") +
+  ggtitle("Boxplot of outliers proportion by different methods for different distributions")
+```
+
+
+
 Fig. X: A linear regression of the Standard Deviation Proportion on the IQR Proportion 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message=FALSE}
 iqvsd <- glm(piqr~psd, data=record)
 summary(iqvsd)
 gf_point(piqr ~psd,

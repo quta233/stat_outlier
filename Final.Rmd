@@ -230,17 +230,52 @@ color = "red") %>%
 gf_lm(size = 1.5)
 ```
 Fig X+1: A one way ANOVA Test between the IQR and Standard Deviations mean proportions
-```{r}
+```{r, echo=FALSE}
 a1 <- aov(iqvsd)
 summary(a1)
 ```
 We can see that there is significant evidence to reject the assumption that the means of proportions of the two tests are equal.
 
+Fig. X+2: A  A linear regression of the Cook's Distance Proportion on the Chis-Square Proportion 
+```{r, echo=FALSE}
+csvck <- glm(pcook~pcsq, data=record)
+summary(csvck)
+gf_point(pcook ~pcsq,
+data = record) %>%
+gf_smooth(linetype = "dashed",
+color = "red") %>%
+gf_lm(size = 1.5)
+```
+Fig. X+3: An ANOVA test of the difference of means of sample proportions between the Chi Square and Cook's Distance tests
+```{r, echo=FALSE}
+a2 <-aov(csvck)
+summary(a2)
+```
+
+We can see that there is significant evidence to reject the assumption that the means of proportions of the two tests are equal.
+
+Fig X+4:
+```{r}
+cqviq<-lm(pcsq ~ piqr, data=record)
+a3 <- aov(cqviq)
+summary(a3)
+
+```
 
 
+Conclusion:
 
+After observing the data we can see:
 
-
+The means of the proportions: (Cook's, Chi-Square, IQR, SD, Bonferroni)
+```{r, echo=FALSE}
+mean(record$pcook)
+mean(record$pcsq)
+mean(record$piqr)
+mean(record$psd)
+mean(record$pbonf)
+```
+Because of The ANOVA tests, we know that the differences in means between Cook and Chi-Square are significant as well as between Standard Deviation and IQR and Chi-Square and IQR.
 
 
 

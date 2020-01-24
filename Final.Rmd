@@ -114,7 +114,7 @@ cabinet_5 <- cabinet_5 %>%
 
 
 Examples of each test:
-
+Fig. 1: The distribution of this example dataset.
 ```{r}
 data("SATGPA")
 D6<-lm(MathSAT~1, data=SATGPA)
@@ -154,67 +154,42 @@ record <- record %>% mutate(id = seq.int(nrow(record)))
 
 Data:
 
-```{r}
-view(record)
-```
-
-
+Fig. 2: The Proportion of samples that were detected as outliers by the Chi Square Test.
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 record %>%
   ggplot(aes(x = id, y = pcsq)) +
-  geom_point() +
-  geom_smooth(
-    linetype = "dashed",
-    color = "red", 
-    se = FALSE) +
-  geom_lm(size = 1.5)
-```
+  geom_point() 
 
+```
+Fig. 3: The Proportion of samples that were detected as outliers by the Cook's Distance Test.
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 record %>%
   ggplot(aes(x = id, y = pcook)) +
-  geom_point() +
-  geom_smooth(
-    linetype = "dashed",
-    color = "red", 
-    se = FALSE) +
-  geom_lm(size = 1.5)
+  geom_point() 
 ```
-
+Fig. 4: The Proportion of samples that were detected as outliers by the 1.5 IQR Test.
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 record %>%
   ggplot(aes(x = id, y = piqr)) +
-  geom_point() +
-  geom_smooth(
-    linetype = "dashed",
-    color = "red", 
-    se = FALSE) +
-  geom_lm(size = 1.5)
+  geom_point() 
+  
 ```
-
+Fig. 5: The Proportion of samples that were detected as outliers by the 2.5 Standard Deviation Test.
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 record %>%
   ggplot(aes(x = id, y = psd)) +
-  geom_point() +
-  geom_smooth(
-    linetype = "dashed",
-    color = "red", 
-    se = FALSE) +
-  geom_lm(size = 1.5)
+  geom_point() 
+ 
 ```
-
+Fig. 6: The Proportion of samples that were detected as outliers by the Bonferroni Test.
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 record %>%
   ggplot(aes(x = id, y = pbonf)) +
-  geom_point() +
-  geom_smooth(
-    linetype = "dashed",
-    color = "red", 
-    se = FALSE) +
-  geom_lm(size = 1.5)
+  geom_point() 
+ 
 ```
 
-
+Fig. 7: A Comparison of all the Sample Proportions of each outlier test.
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 record %>%
   ggplot(aes(x = id)) +

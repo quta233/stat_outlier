@@ -123,6 +123,12 @@ sd_test(cabinet_5, cabinet_5$length, "length")
 outlierTest(D3, n.max = Inf)
 ```
 
+Data:
+
+```{r}
+view(record)
+```
+
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 record %>%

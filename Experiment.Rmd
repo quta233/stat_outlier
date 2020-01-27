@@ -10,6 +10,7 @@ library(mosaic)
 library(car)
 library(outliers)
 library(tidyverse)
+library(moments)
 ```
 
 
@@ -191,4 +192,69 @@ IQR_test(TomlinsonRush, TomlinsonRush$Yards, "Yards")
 sd_test(TomlinsonRush, TomlinsonRush$Yards, "Yards")
 
 ```
+
+```{r}
+S1 <- skewness(nfl_1$elo1_post)
+S2 <- skewness(top50_3$Beats.Per.Minute)
+S3 <- skewness(cabinet_5$length)
+S4 <- skewness(Cereal$Sugar)
+S5 <- skewness(airbnb_6$number_of_reviews)
+S6 <- skewness(SATGPA$MathSAT)
+S7 <- skewness(KeyWestWater$WaterTemp)
+S8 <- skewness(FirstYearGPA$GPA)
+S9 <- skewness(Diamonds2$Carat)
+S10 <- skewness(MLBStandings2016$Runs)
+```
+
+```{r}
+S11 <- skewness(PeaceBridge2012$Traffic)
+S12 <- skewness(Perch$Weight)
+S13 <- skewness(Houses$Price)
+S14 <- skewness(Fertility$E2)
+S15 <- skewness(LeveeFailures$ChannelWidth)
+S16 <- skewness(Retirement$SRA)
+S17 <- skewness(CO2Hawaii$CO2)
+S18 <- skewness(Faces$SHR)
+S19 <- skewness(Kids198$Weight)
+S20 <- skewness(BirdNest$Length)
+```
+
+
+
+```{r}
+S21 <- skewness(HawkTail$Tail)
+S22 <- skewness(AppleStock$Price)
+S23 <- skewness(Kershaw$StartSpeed)
+S24 <- skewness(SeaIce$Extent)
+S25 <- skewness(TomlinsonRush$Yards)
+S26 <- skewness(BlueJays$BillDepth)
+S27 <- skewness(WalkTheDogs$Kcal)
+S28 <- skewness(SeaSlugs$Percent)
+S29 <- skewness(Dinosaurs$Iridium)
+S30 <- skewness(Putts1$Length)
+```
+
+```{r}
+S31 <- skewness(s_norm$value)
+S32 <- skewness(m_norm$value)
+S33 <- skewness(l_norm$value)
+S34 <- skewness(s_right$value)
+S35 <- skewness(m_right$value)
+S36 <- skewness(l_right$value)
+S37 <- skewness(s_left$value)
+S38 <- skewness(m_left$value)
+S39 <- skewness(l_left$value)
+```
+
+
+
+```{r}
+skewness <- c(S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28, S29, S30, S31, S32, S33, S34, S35, S36, S37, S38, S39)
+```
+
+
+```{r}
+
+```
+
 

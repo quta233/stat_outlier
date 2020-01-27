@@ -222,9 +222,9 @@ record %>%
     value = "proportion",
     pcsq, pcook, piqr, psd, pbonf
     ) %>%
-  ggplot(aes(x = distribution, y = proportion, color = methods)) +
+  ggplot(aes(x = methods, y = proportion, color = distribution)) +
   geom_boxplot() +
-  facet_wrap(~methods) +
+  facet_wrap(~distribution) +
   coord_flip() +
   theme(axis.text.x = element_text(angle=30, hjust=1)) +
   ylab("Proportion of outliers") +
@@ -269,12 +269,29 @@ summary(a2)
 
 We can see that there is significant evidence to reject the assumption that the means of proportions of the two tests are equal.
 
-Fig X+4:
-```{r}
-cqviq<-lm(pcsq ~ piqr, data=record)
-a3 <- aov(cqviq)
-summary(a3)
+```{r, echo=FALSE}
+newrecord <- record %>%
+  gather(
+    key = "methods",
+    value = "proportion",
+    pcsq, pcook, piqr, psd, pbonf
+    )
 
+Good <- newrecord %>% filter(methods == "piqr" | methods == "pcsq")
+```
+
+```{r, echo=FALSE}
+Good
+```
+
+ANOVA of all methods:
+```{r, echo=FALSE}
+summary(aov(proportion ~ methods + setName, data=newrecord))
+
+```
+ANOVA comparing Chi Square and IQR
+```{r, echo=FALSE}
+summary(aov(proportion ~ methods + setName, data=Good))
 ```
 
 
@@ -290,7 +307,10 @@ mean(record$piqr)
 mean(record$psd)
 mean(record$pbonf)
 ```
-Because of The ANOVA tests, we know that the differences in means between Cook and Chi-Square are significant as well as between Standard Deviation and IQR and Chi-Square and IQR.
+Because of The ANOVA tests, we know that the differene
+
+skew: (mean- med)/sd
+
 
 
 

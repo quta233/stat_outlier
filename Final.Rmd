@@ -1,5 +1,5 @@
 ---
-title: "Final"
+title: "An Analysis of Different Outlier Detection Methods"
 author: "Alex Khater, Tina Liu"
 date: "2020/1/23"
 output:
@@ -22,7 +22,9 @@ library(car)
 library(outliers)
 library(moments)
 ```
-Outlier Analysis
+
+**Introduction:** 
+
 
 The goal of this research project is to compare the outputs of different methods of outlier detection on a variety of different datasets and will attempt to draw conclusions about the relative conservativeness of a given outlier test on data sets of certain distributions and sizes. 
 
@@ -58,7 +60,6 @@ chi_square <- function (x, pvalue = 0.03, opposite = FALSE) {
     print(num)
 }
 ```
-
 
 
 Cook’s Distance: This test measures the Cook’s Distance of each point, a measure of influence, and isolates any point with more than 4 times the mean cook’s distance as an outlier.
@@ -120,9 +121,9 @@ cabinet_5 <- cabinet_5 %>%
 ```
 
 
-Examples of each test:\\
-Fig. 1: Example dataset:
+Examples of each test:
 
+Fig. 1: Example dataset:
 
 ```{r, echo=FALSE, message=FALSE}
 data("SATGPA")
@@ -130,7 +131,7 @@ D6<-lm(MathSAT~1, data=SATGPA)
 SATGPA %>% 
   ggplot(aes(x = MathSAT)) +
   geom_histogram() +
-  ggtitle("DIstribution of dataSet SATGPA") +
+  ggtitle("Distribution of DataSet SATGPA") +
   ylab("Frequency") +
   xlab("Score of SAT Math")
 ```
@@ -169,6 +170,7 @@ record <- record %>%
 record <- record %>% mutate(id = seq.int(nrow(record)))
 ```
 
+**Post-Experiment Data:**
 
 Fig. 2:
 
@@ -183,9 +185,9 @@ record %>%
   ggplot(aes(x = id, y = proportion, color = methods)) +
   geom_point() +
   facet_wrap(~methods) +
-  ylab("Proportion of outliers") +
+  ylab("Proportion of Outliers") +
   xlab("Number of Datasets") +
-  ggtitle("Proportion of outliers in each dataset detected by each methods")
+  ggtitle("Proportion of Outliers in Each Dataset Detected by Each Method")
 ```
 
 
@@ -203,8 +205,8 @@ record %>%
   scale_color_manual( 
     name = "Method",
     values = c("csq"= "black", "cook" = "blue", "iqr" = "red", "sd" = "green", "bonf" = "orange")) +
-  ylab("Proportion of outliers") +
-  xlab("Number of datasets")
+  ylab("Proportion of Outliers") +
+  xlab("Number of Datasets")
 ```
 
 
@@ -225,47 +227,35 @@ record %>%
   facet_wrap(~distribution) +
   coord_flip() +
   theme(axis.text.x = element_text(angle=30, hjust=1)) +
-  ylab("Proportion of outliers") +
+  ylab("Proportion of Outliers") +
   xlab("Distribution of Datasets") +
-  ggtitle("Boxplot of outliers proportion by different methods for different distributions")
+  ggtitle("Boxplot of Outliers Proportion by Different Methods for Different Distributions")
 ```
 
 
 
-Fig. X: A linear regression of the Standard Deviation Proportion on the IQR Proportion 
+
+
+Fig. 6: A linear regression of the Standard Deviation Proportion on the IQR Proportion 
 ```{r, echo=FALSE, message=FALSE}
 iqvsd <- glm(piqr~psd, data=record)
-summary(iqvsd)
 gf_point(piqr ~psd,
 data = record) %>%
 gf_smooth(linetype = "dashed",
 color = "red") %>%
 gf_lm(size = 1.5)
 ```
-Fig X+1: A one way ANOVA Test between the IQR and Standard Deviations mean proportions
-```{r, echo=FALSE}
-a1 <- aov(iqvsd)
-summary(a1)
-```
-We can see that there is significant evidence to reject the assumption that the means of proportions of the two tests are equal.
 
-Fig. X+2: A  A linear regression of the Cook's Distance Proportion on the Chis-Square Proportion 
+Fig. 7: A linear regression of the Cook's Distance Proportion on the Chis-Square Proportion 
 ```{r, echo=FALSE}
 csvck <- glm(pcook~pcsq, data=record)
-summary(csvck)
 gf_point(pcook ~pcsq,
 data = record) %>%
 gf_smooth(linetype = "dashed",
 color = "red") %>%
 gf_lm(size = 1.5)
 ```
-Fig. X+3: An ANOVA test of the difference of means of sample proportions between the Chi Square and Cook's Distance tests
-```{r, echo=FALSE}
-a2 <-aov(csvck)
-summary(a2)
-```
 
-We can see that there is significant evidence to reject the assumption that the means of proportions of the two tests are equal.
 
 ```{r, echo=FALSE}
 newrecord <- record %>%
@@ -278,22 +268,23 @@ newrecord <- record %>%
 Good <- newrecord %>% filter(methods == "piqr" | methods == "pcsq")
 ```
 
-```{r, echo=FALSE}
-Good
-```
 
-ANOVA of all methods:
+
+ANOVA on Proportion Methods:
 ```{r, echo=FALSE}
 summary(aov(proportion ~ methods + setName, data=newrecord))
 
 ```
-ANOVA comparing Chi Square and IQR
+There is evidence to show that the means are significantly different.
+
+
+ANOVA Comparing Proportions of Outliers detected by Chi Square and IQR:
 ```{r, echo=FALSE}
 summary(aov(proportion ~ methods + setName, data=Good))
 ```
+There is no evidence to suggest that the means are significantly different.
 
-
-Conclusion:
+**Conclusion:**
 
 After observing the data we can see:
 
@@ -305,9 +296,10 @@ mean(record$piqr)
 mean(record$psd)
 mean(record$pbonf)
 ```
-Because of The ANOVA tests, we know that the differene
+As seen The ANOVA tests, we know that the difference between the mean proportions of methods are significant. We can conclude that these outlier tests work far from identically. The Cook's Distance seems to find the most outliers per dataset whereas the Bonferroni seems to find the least.
 
-skew: (mean- med)/sd
+When accounting for Skewness, it seems the 
+
 
 
 

@@ -11,13 +11,16 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r, echo=FALSE, message=FALSE}
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(sn)
 library(Stat2Data)
 library(mosaic)
 library(car)
 library(outliers)
+library(moments)
 ```
 Outlier Analysis
 
@@ -50,17 +53,12 @@ chi_square <- function (x, pvalue = 0.03, opposite = FALSE) {
         }
       pval <- 1 - pchisq(chi, 1)
       print(alt)
-      sprintf("p value = ")
       num <- num + 1
     }
     print(num)
 }
 ```
 
-```{r}
-pval = 2
-sprintf("p value = %f", pval)
-```
 
 
 Cook’s Distance: This test measures the Cook’s Distance of each point, a measure of influence, and isolates any point with more than 4 times the mean cook’s distance as an outlier.

@@ -333,8 +333,11 @@ mean(record$pbonf)
 ```
 As seen The ANOVA tests, we know that the difference between the mean proportions of methods are significant. We can conclude that these outlier tests work far from identically. The Cook's Distance seems to find the most outliers per dataset whereas the Bonferroni seems to find the least.
 
-When accounting for Skewness, there are noticable increases in proportion detected for the IQR method when the skewness of dataset is larger and positive,right-skewed. 
+When accounting for Skewness, there are noticable increases in proportion detected for the IQR method when the skewness of dataset is larger and positive,right-skewed. In fact, nearly all regression lines in Fig. 8 have positive slopes, meaning the proportion of outliers detected rises with right skewness, the IQR having the largest slope. The Bonferroni Regression line has a slightly negative slope, making it find more outliers with left skewed dataset. 
 
+#WRITE EXPLANATION HERE
+
+Although one cannot objectively say what definitevly constitutes an outlier, nor can one look at the data from this experiment and conclude a "best" outlier detection method. What can be said is that we have compared the outlier tests and viewed their relative conservativenesses and that is valuable in and of itself.  
 
 
 

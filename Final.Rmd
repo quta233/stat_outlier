@@ -257,6 +257,40 @@ color = "red") %>%
 gf_lm(size = 1.5)
 ```
 
+Fig. 8 : A regression of proportion of outliers detected by a given a method and skewness of a dataset:
+
+```{r, echo=FALSE}
+record %>%
+  gather(
+    key = "methods",
+    value = "proportion",
+    pcsq, pcook, piqr, psd, pbonf
+    ) %>%
+  ggplot(aes(x = skewness, y = proportion)) +
+  geom_point() +
+  geom_smooth(
+    linetype = "dashed",
+    color = "red",
+    se = FALSE) +
+  geom_lm(size = 1.5) +
+  facet_wrap(~methods)
+```
+
+
+```{r}
+Scook <- lm(pcook~skewness, data=record)
+gf_point(pcook ~skewness,
+data = record) %>%
+gf_smooth(linetype = "dashed",
+color = "red") %>%
+gf_lm(size = 1.5)
+```
+```{r}
+
+```
+
+
+
 
 ```{r, echo=FALSE}
 newrecord <- record %>%
@@ -299,7 +333,7 @@ mean(record$pbonf)
 ```
 As seen The ANOVA tests, we know that the difference between the mean proportions of methods are significant. We can conclude that these outlier tests work far from identically. The Cook's Distance seems to find the most outliers per dataset whereas the Bonferroni seems to find the least.
 
-When accounting for Skewness, it seems the 
+When accounting for Skewness, there are noticable increases in proportion detected for the IQR method when the skewness of dataset is larger and positive,right-skewed. 
 
 
 

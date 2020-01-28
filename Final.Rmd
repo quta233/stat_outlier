@@ -148,6 +148,9 @@ sd_test(SATGPA, SATGPA$MathSAT, "MathSAT")
 outlierTest(D6, n.max = Inf)
 ```
 
+```{r, echo=FALSE}
+load("data.Rda")
+```
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 record <- read_csv("WT Data Record2.csv")
@@ -237,7 +240,7 @@ record %>%
 
 
 
-Fig. 6: A linear regression of the Standard Deviation Proportion on the IQR Proportion 
+Fig. 6:  
 ```{r, echo=FALSE, message=FALSE}
 record %>%
   ggplot(aes(x = psd, y = piqr)) +
@@ -246,10 +249,13 @@ record %>%
     linetype = "dashed",
     color = "red",
     se = FALSE) +
-  geom_lm(size = 1.5)
+  geom_lm(size = 1.5) +
+  ggtitle("A linear regression of the Standard Deviation Proportion on the IQR Proportion") +
+  xlab("Proportion of Standard Deviation test") +
+  ylab("Proportion of Iqr test")
 ```
 
-Fig. 7: A linear regression of the Cook's Distance Proportion on the Chis-Square Proportion 
+Fig. 7: 
 ```{r, echo=FALSE, message=FALSE}
 record %>%
   ggplot(aes(x = pcsq, y = pcook)) +
@@ -258,12 +264,15 @@ record %>%
     linetype = "dashed",
     color = "red",
     se = FALSE) +
-  geom_lm(size = 1.5)
+  geom_lm(size = 1.5) +
+  ggtitle("A linear regression of the Cook's Distance Proportion on the Chi-Square Proportion")+
+  xlab("Proportion of Cook's Distance test") +
+  ylab("Proportion of Chi-Square test")
 ```
 
-Fig. 8 : A regression of proportion of outliers detected by a given a method and skewness of a dataset:
+Fig. 8 :
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message=FALSE}
 record %>%
   gather(
     key = "methods",
@@ -277,22 +286,11 @@ record %>%
     color = "red",
     se = FALSE) +
   geom_lm(size = 1.5) +
-  facet_wrap(~methods)
+  facet_wrap(~methods) +
+  ggtitle("Regression of proportion of outliers detected different methods and skewness of a dataset") +
+  xlab("Skewness of Datasets") +
+  ylab("Proportion of outliers")
 ```
-
-
-```{r}
-Scook <- lm(pcook~skewness, data=record)
-gf_point(pcook ~skewness,
-data = record) %>%
-gf_smooth(linetype = "dashed",
-color = "red") %>%
-gf_lm(size = 1.5)
-```
-```{r}
-
-```
-
 
 
 

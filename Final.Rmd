@@ -335,9 +335,9 @@ As seen The ANOVA tests, we know that the difference between the mean proportion
 
 When accounting for Skewness, there are noticable increases in proportion detected for the IQR method when the skewness of dataset is larger and positive,right-skewed. In fact, nearly all regression lines in Fig. 8 have positive slopes, meaning the proportion of outliers detected rises with right skewness, the IQR having the largest slope. The Bonferroni Regression line has a slightly negative slope, making it find more outliers with left skewed dataset. 
 
-#WRITE EXPLANATION HERE
+Some of these results match what one would expect. The IQR and Standard Deviation tests should be similar for normal distributions. The IQR has a much larger outlier detection proportion on skew distribution because these distributions would affect the detection apparatus of the IQR equation more than the standard deviation. It is mildly unexpected just how much larger the IQR proportion is than the SD proportion on average.
 
-Although one cannot objectively say what definitevly constitutes an outlier, nor can one look at the data from this experiment and conclude a "best" outlier detection method. What can be said is that we have compared the outlier tests and viewed their relative conservativenesses and that is valuable in and of itself.  
+Although one cannot objectively say what definitevly constitutes an outlier, nor can one look at the data from this experiment and conclude a "best" outlier detection method. What can be said is that we have compared the outlier tests and viewed their relative conservativenesses, verified that these tests function differently and that is valuable in and of itself.  
 
 
 

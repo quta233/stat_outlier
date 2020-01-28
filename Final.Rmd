@@ -239,22 +239,26 @@ record %>%
 
 Fig. 6: A linear regression of the Standard Deviation Proportion on the IQR Proportion 
 ```{r, echo=FALSE, message=FALSE}
-iqvsd <- glm(piqr~psd, data=record)
-gf_point(piqr ~psd,
-data = record) %>%
-gf_smooth(linetype = "dashed",
-color = "red") %>%
-gf_lm(size = 1.5)
+record %>%
+  ggplot(aes(x = psd, y = piqr)) +
+  geom_point() +
+  geom_smooth(
+    linetype = "dashed",
+    color = "red",
+    se = FALSE) +
+  geom_lm(size = 1.5)
 ```
 
 Fig. 7: A linear regression of the Cook's Distance Proportion on the Chis-Square Proportion 
-```{r, echo=FALSE}
-csvck <- glm(pcook~pcsq, data=record)
-gf_point(pcook ~pcsq,
-data = record) %>%
-gf_smooth(linetype = "dashed",
-color = "red") %>%
-gf_lm(size = 1.5)
+```{r, echo=FALSE, message=FALSE}
+record %>%
+  ggplot(aes(x = pcsq, y = pcook)) +
+  geom_point() +
+  geom_smooth(
+    linetype = "dashed",
+    color = "red",
+    se = FALSE) +
+  geom_lm(size = 1.5)
 ```
 
 Fig. 8 : A regression of proportion of outliers detected by a given a method and skewness of a dataset:
